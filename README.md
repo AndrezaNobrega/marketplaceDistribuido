@@ -29,7 +29,9 @@ Ex:
 
 starvation: é um ponto de falha, que quando vários nós fazem essa requisição, pode ser que todos sejam cancelados. O professor já falou na sessão que isso não pode acontecer no programa.
 
-- Exclusão mútua completamente descentralizada
+Portanto, as duas soluções que eu acho que podem ser uteis nesse caso são: distribuído e token ring
+
+- Exclusão mútua completamente distribuido
   - total-order multicast 
   - é baseado em relógios lógiocos
   - um nó acessa o mutex quando todos os demais respondem ok
