@@ -22,3 +22,15 @@ Ex:
 -      a --> b, b é um efeito de a
 -       Se alguns valores são maiores e outros menores ou iguais, ñ é possível ordenar
 
+
+# Exclusão mútuaa
+
+![image](https://user-images.githubusercontent.com/52046375/202014960-3d1c47ce-b22a-4bbf-8956-46eeaa5d16ff.png)
+
+starvation: é um ponto de falha, que quando vários nós fazem essa requisição, pode ser que todos sejam cancelados. O professor já falou na sessão que isso não pode acontecer no programa.
+
+- Exclusão mútua completamente descentralizada
+  - total-order multicast 
+  - é baseado em relógios lógiocos
+  - um nó acessa o mutex quando todos os demais respondem ok
+
