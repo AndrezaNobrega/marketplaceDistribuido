@@ -11,3 +11,14 @@ Ex:
  a cada evento, é incrementado +1 no índice do seu processo, ex:
  
   P1: ------------{1, 0, 0} evento 1 ----------------------------------- {2, 0, 0} evento 2---------
+
+
+- Só há relação p/ eventos ligados pelo envio de mensagem ou que ocorrem no mesmo nó.
+- Não mantem histórico de interação;
+- Relação de causalidade;
+
+# Comparação de dois eventos
+- Se todos os valores são menores ou iguais aos respectivos valores de B, a precede B
+-      a --> b, b é um efeito de a
+-       Se alguns valores são maiores e outros menores ou iguais, ñ é possível ordenar
+
