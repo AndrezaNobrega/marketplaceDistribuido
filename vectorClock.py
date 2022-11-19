@@ -25,13 +25,13 @@ P[3] = {key: [0, 0, inc + key] for key in e3}
 print('Processo 3: ', P[3])
 print("\n")
 
-comm = int(input("Número de comunicação nas linhas : "))
+comm = int(input("Número de envios entre linhas : "))
 print("\n")
 
 while inc < comm:
-    sent = int(input("Enter the sending process number : ")) # toda vez que um processo envia uma mensagem, 
+    sent = int(input("Número do proceso que está enviando : ")) # toda vez que um processo envia uma mensagem, 
     #o valor do relógio lógico dos processos no vetor é incrementado por 1.
-    recv = int(input("Enter the receiving process number : "))
+    recv = int(input("nº do processo que está recebendo : "))
     sent_event_no = int(input("Enter the sending event number : "))
     recv_event_no = int(input("Enter the receiving event number : "))
     if sent <= 3 and recv <= 3:
