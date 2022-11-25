@@ -48,7 +48,7 @@ while inc < comm:
         print ("Enter the sent/recv within existing process")
     inc += 1
 
-print("Final vectors of the 3 process are")
+print("Vetor final dos três processos:")
 print('Processo 1: ', P[1])
 print('Processo 2: ', P[2])
 print('Processo 3: ', P[3])

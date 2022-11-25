@@ -1,8 +1,12 @@
 class Cliente: #construtor
-    def __init__(self, Carrinho, id):
+    def __init__(self, id):
         self.id = ''
-        self.Carrinho = Carrinho
+        self.carrinho = [] #lista de itens
 
     def getCarrinho(self): #retorna Carrinho
-        Carrinho = self.Carrinho
-        return Carrinho
+        carrinho = self.carrinho
+        return carrinho
+
+    def appendCarrinho(self, produto): #add um Produto 
+        carrinho = self.carrinho.append(produto)
+        return carrinho

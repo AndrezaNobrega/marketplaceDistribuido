@@ -1,7 +1,9 @@
 class Produto: #construtor
-    def __init__(self, id, Varejista):
+    def __init__(self, id, nome, valor,  Varejista):
         self.id = ''
-        self.Varejista = Varejista #poderia tb só colocar o ID
+        self.nome = ''
+        self.valor = ''
+        self.Varejista = '' #poderia tb só colocar o ID
 
     def getId(self): #retorna ID
         id = str(self.id)
