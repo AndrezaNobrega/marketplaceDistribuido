@@ -23,6 +23,12 @@
             "nome": "estojo de lapis",
             "valor": 15.0,
             "varejista": "layla"
+        },
+        {
+            "ID": "ba9d4177-d89c-4cd0-b360-c95ba7c85206",
+            "nome": "Garrafa",
+            "valor": 70.0,
+            "varejista": "O Garraf\u00e3o"
         }
     ]
 }
