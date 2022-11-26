@@ -1,28 +1,34 @@
 {
     "produtos": [
         {
-            "ID": "84c85fd3-fca1-49bd-91bb-5f674a5c8bad",
-            "nome": "teste",
-            "valor": 25.0,
-            "varejista": "teste"
-        },
-        {
-            "ID": "84c85fd3-fca1-49bd-91bb-5f674a5c8bad",
-            "nome": "teste2",
-            "valor": 2565.0,
-            "varejista": "teste2"
-        },
-        {
-            "ID": "84c85fd3-fca1-49bd-91bb-5f674a5c8bad",
-            "nome": "jshkdsf",
-            "valor": 25.0,
-            "varejista": "fugodfi"
-        },
-        {
-            "ID": "5ddd3a44-c18b-4e86-b9f1-5dc6ca2b46fb",
-            "nome": "estojo de lapis",
+            "ID": "3714",
+            "nome": "celular",
             "valor": 15.0,
-            "varejista": "layla"
+            "varejista": "Izzie"
+        },
+        {
+            "ID": "9559",
+            "nome": "bolsa",
+            "valor": 25.0,
+            "varejista": "Callia"
+        },
+        {
+            "ID": "7064",
+            "nome": "celular motorola",
+            "valor": "1500.0",
+            "varejista": "Layla"
+        },
+        {
+            "ID": "8228",
+            "nome": "sapato social",
+            "valor": "7",
+            "varejista": "Layla"
+        },
+        {
+            "ID": "3295",
+            "nome": "sapato social",
+            "valor": "7",
+            "varejista": "Layla"
         }
     ]
 }

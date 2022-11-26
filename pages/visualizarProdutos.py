@@ -9,6 +9,7 @@ def visualizarTodos():
     
         # Reading from json file
         json_object = json.load(openfile)
-    df = json_normalize(json_object)
-    lit.table(df)
+    df = json_normalize(json_object['produtos'])
+    lit.dataframe(df)
+    
     

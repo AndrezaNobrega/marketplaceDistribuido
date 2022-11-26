@@ -1,5 +1,5 @@
 import streamlit as lit
-import uuid
+from random import *
 import json
 import visualizarProdutos
 #import model.Produto as produtoImp
@@ -11,15 +11,15 @@ if paginaAdm == 'Cadastro de produto':
     lit.title('Cadastro de produto')
     with lit.form(key = "cadastro produto"):
         nome = lit.text_input(label = 'Insira aqui o nome do produto')
-        varejista = lit.text_input(label = 'Insira aqui o varejista') #aqui vai aparecer as opções cadastradas no bd
-        valor = lit.number_input(label = 'Digite aqui o valor do produto') 
+        varejista = lit.text_input(label = 'Insira aqui o varejista') #aqui tem que aparecer as opções cadastradas no bd
+        valor = lit.number_input(label= 'Digite aqui o valor do produto',step=1.,format="%.2f") 
         submit =  lit.form_submit_button('Cadastrar')
 
     if submit:
-        id = str(uuid.uuid4())
+        id = str(randint(1000,9999)) #gera ID
         produto = {"ID": id,
                         "nome": nome,
-                        "valor": valor,
+                        "valor": str(valor),
                         "varejista": varejista
         }
 
