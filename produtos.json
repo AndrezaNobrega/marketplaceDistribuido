@@ -1,1 +1,28 @@
-{"ID": "28e0b729-1a01-4566-a721-f71a430807c8", "nome": "la\u00e7o de cachorrinho", "valor": 150.01999999999998, "varejista": "Layla"}
+{
+    "produtos": [
+        {
+            "ID": "84c85fd3-fca1-49bd-91bb-5f674a5c8bad",
+            "nome": "teste",
+            "valor": 25.0,
+            "varejista": "teste"
+        },
+        {
+            "ID": "84c85fd3-fca1-49bd-91bb-5f674a5c8bad",
+            "nome": "teste2",
+            "valor": 2565.0,
+            "varejista": "teste2"
+        },
+        {
+            "ID": "84c85fd3-fca1-49bd-91bb-5f674a5c8bad",
+            "nome": "jshkdsf",
+            "valor": 25.0,
+            "varejista": "fugodfi"
+        },
+        {
+            "ID": "5ddd3a44-c18b-4e86-b9f1-5dc6ca2b46fb",
+            "nome": "estojo de lapis",
+            "valor": 15.0,
+            "varejista": "layla"
+        }
+    ]
+}
