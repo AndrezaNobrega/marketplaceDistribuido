@@ -31,13 +31,6 @@ $('.addToCart').on("click", function(event) {
         $(this).next().next().next().css("display", "block");
         $(this).next().next().next().delay(3000).slideUp();
     }
-
-    if ($(this).prev().val() == "0") {
-            event.preventDefault();
-            $(this).next().next().next().html("You need to log in to buy.");
-            $(this).next().next().next().css("display", "block");
-            $(this).next().next().next().delay(3000).slideUp();
-        }
 });
 
 
