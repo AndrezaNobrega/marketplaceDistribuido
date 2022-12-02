@@ -6,7 +6,7 @@
         <meta content="utf-8" http-equiv="encoding">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="theme-color" content="#000000">
+        <meta name="theme-color" content="#8CEE56">
         <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
             crossorigin="anonymous">
@@ -22,7 +22,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Shopping Cart</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Carrinho</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -37,10 +37,10 @@
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Item</th>
-                        <th scope="col">Team</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Unit Price</th>
-                        <th scope="col">Sub-Total</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Quantidade</th>
+                        <th scope="col">Preço da unidade</th>
+                        <th scope="col">Total</th>
                         <th scope="col"></th>
                       </tr>
                     </thead>
@@ -68,23 +68,23 @@
                       <tr>
                         <td colSpan="7">Total: {{ '${:,.2f}'.format(total) }}<br /><br />
                           <div class="modal-footer">
-                            <a href="/cart/"><button type="button" class="btn btn-primary checkout">Make Changes</button></a>
-                            <button type="button" class="btn btn-primary checkout" data-dismiss="modal">Continue Shopping</button>
-                            <a href="/checkout/"><button type="button" class="btn btn-success checkout">Quick Checkout</button></a>
+                            <a href="/cart/"><button type="button" class="btn btn-primary checkout">Alterar</button></a>
+                            <button type="button" class="btn btn-primary checkout" data-dismiss="modal">Continue comprando</button>
+                            <a href="/checkout/"><button type="button" class="btn btn-success checkout">Encerrar compra</button></a>
                           </div>
                         </td>
                       </tr>
                     </tfoot>
                     {% else %}
                       <tr>
-                        <td colSpan="7"><h3>Your cart is empty :\</h3></td>
+                        <td colSpan="7"><h3>Carrinho vazio :\</h3></td>
                       </tr>
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td colSpan="7">Get some shirts now!<br />
+                        <td colSpan="7">Adicione produtos!<br />
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Continue Shopping</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Continue comprando</button>
                           </div>
                         </td>
                       </tr>
@@ -102,17 +102,12 @@
   <header>
     <nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-sm box-shadow">
       <a href="/" class="navbar-brand d-flex align-items-center">
-          <strong><i class="far fa-futbol"></i> Soccer Jersey Store</strong>
+          <strong><i class="far fa-futbol"></i> Loja de artigos esportivos</strong>
       </a>
       {% if session %}
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a href="/logout/" class="nav-link">Logout</a></li>
-        <li class="nav-item"><a href="/history/" class="nav-link">You Bought</a></li>
       {% else %}
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a href="/new/" class="nav-link">Register</a></li>
-        <li class="nav-item"><a href="/login/" class="nav-link">Login</a></li>
-
       {% endif %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -120,13 +115,11 @@
           </a>
           <div class="dropdown-menu">
               <a class="dropdown-item" href="/">All</a>
-              <a class="dropdown-item" href="/filter/?continent=europe">Region-Europe</a>
-              <a class="dropdown-item" href="/filter/?continent=americas">Region-Americas</a>
-              <a class="dropdown-item" href="/filter/?continent=africa">Region-Africa</a>
-              <a class="dropdown-item" href="/filter/?kind=national">National Teams</a>
-              <a class="dropdown-item" href="/filter/?kind=club">Clubs</a>
-              <a class="dropdown-item" href="/filter/?sale=1">On Sale</a>
-              <a class="dropdown-item" href="/filter/?price=1">Price $0-$000</a>
+              <a class="dropdown-item" href="/filter/?continent=europe">Europa</a>
+              <a class="dropdown-item" href="/filter/?continent=americas">Americas</a>
+              <a class="dropdown-item" href="/filter/?continent=africa">Africa</a>
+              <a class="dropdown-item" href="/filter/?sale=1">A venda</a>
+              <a class="dropdown-item" href="/filter/?price=1">Preços $0-$000</a>
           </div>
         </li>
       </ul>
@@ -135,7 +128,7 @@
           <span class="glyphicon glyphicon-shopping-cart" data-toggle="modal" data-target="">
             <i class="fas fa-shopping-cart"></i>
             <span class="counter">No. of Items: {{ totItems }}</span>
-            <span class="counter">Total: ${{ '{:,.2f}'.format(total) }}</span>
+            <span class="counter">Total: R${{ '{:,.2f}'.format(total) }}</span>
           </span>
         </button>
       </div>
@@ -145,7 +138,7 @@
     <div class="container">
       {% if display == 1 %}
       <div class="alert alert-success flashMessage" style="text-align:center">
-        <strong>Your item was successfully removed from shopping cart!</strong>
+        <strong>Item removido do carrinho com sucesso</strong>
       </div>
       {% endif %}
     {% block body %}{% endblock %}
@@ -154,7 +147,7 @@
             <div class="row">
                 <div class="col-md">
                     <hr />
-                    <p>&#169; <a href="/">Soccer Jersey Store</a></p>
+                    <p>&#169; <a href="/">Loja esportiva</a></p>
                 </div>
             </div>
         </div>

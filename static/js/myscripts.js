@@ -19,10 +19,6 @@ $(".target").on("click", function() {
     $button.parent().find("input").val(newVal);
 });
 
-
-
-
-
 $('.addToCart').on("click", function(event) {
     console.log('hello');
     if($(this).prev().prev().prev().find("input").val() == '0') {
@@ -32,7 +28,6 @@ $('.addToCart').on("click", function(event) {
         $(this).next().next().next().delay(3000).slideUp();
     }
 });
-
 
 $(".flashMessage").delay(3000).slideUp();
 

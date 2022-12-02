@@ -1,43 +1,70 @@
 {
     "produtos": [
         {
-            "ID": "3714",
-            "nome": "celular",
-            "valor": 15.0,
-<<<<<<< HEAD
-            "varejista": "layla"
+            "id": "3714",
+            "team": "celular",
+            "image": 15.0,
+            "price": "layla",
+            "onSale": "celular",
+            "onSalePrice": "celular",
+            "kind": "celular",
+            "continent": "celular"
+
         },
         {
-            "ID": "ba9d4177-d89c-4cd0-b360-c95ba7c85206",
-            "nome": "Garrafa",
-            "valor": 70.0,
-            "varejista": "O Garraf\u00e3o"
-=======
-            "varejista": "Izzie"
+            "id": "3714",
+            "team": "celular",
+            "image": 15.0,
+            "price": "layla",
+            "onSale": "celular",
+            "onSalePrice": "celular",
+            "kind": "celular",
+            "continent": "celular"
+
         },
         {
-            "ID": "9559",
-            "nome": "bolsa",
-            "valor": 25.0,
-            "varejista": "Callia"
+            "id": "3714",
+            "team": "celular",
+            "image": 15.0,
+            "price": "layla",
+            "onSale": "celular",
+            "onSalePrice": "celular",
+            "kind": "celular",
+            "continent": "celular"
+
         },
         {
-            "ID": "7064",
-            "nome": "celular motorola",
-            "valor": "1500.0",
-            "varejista": "Layla"
+            "id": "3714",
+            "team": "celular",
+            "image": 15.0,
+            "price": "layla",
+            "onSale": "celular",
+            "onSalePrice": "celular",
+            "kind": "celular",
+            "continent": "celular"
+
         },
         {
-            "ID": "8228",
-            "nome": "sapato social",
-            "valor": "7",
-            "varejista": "Layla"
+            "id": "3714",
+            "team": "celular",
+            "image": 15.0,
+            "price": "layla",
+            "onSale": "celular",
+            "onSalePrice": "celular",
+            "kind": "celular",
+            "continent": "celular"
+
         },
         {
-            "ID": "3295",
-            "nome": "sapato social",
-            "valor": "7",
-            "varejista": "Layla"
+            "id": "3714",
+            "team": "celular",
+            "image": 15.0,
+            "price": "layla",
+            "onSale": "celular",
+            "onSalePrice": "celular",
+            "kind": "celular",
+            "continent": "celular"
+
         }
     ]
 }
