@@ -3,6 +3,9 @@ from flask_session import Session
 from flask import Flask, render_template, redirect, request, session, jsonify
 from datetime import datetime
 
+import json
+from pandas import json_normalize
+
 # # Instantiate Flask object named app
 app = Flask(__name__)
 
@@ -11,9 +14,14 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Creates a connection to the database
+# db sqlite - será substituido pelo json de visualização 
 db = SQL ( "sqlite:///data.db" )
 
+#carrinho de compras da sessão
+carrinho = []
+
+
+#index
 @app.route("/")
 def index():
     shirts = db.execute("SELECT * FROM shirts ORDER BY team ASC")
@@ -23,17 +31,23 @@ def index():
     shopLen = len(shoppingCart)
     totItems, total, display = 0, 0, 0
 
+    # vai abrir o arquivo de  JSON visualização e mostrar todos os produtos que estão dispo 
+    # Opening JSON file
+    with open('produtos.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+
     shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
     shopLen = len(shoppingCart)
     for i in range(shopLen):
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
-    shirts = db.execute("SELECT * FROM shirts ORDER BY team ASC")
+    shirts = db.execute("SELECT * FROM shirts ORDER BY team ASC") #AQ   
     shirtsLen = len(shirts)
     return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display)
 
 
-
+#para inserir no carrinho
 @app.route("/buy/")
 def buy():
     # Initialize shopping cart variables
@@ -70,7 +84,7 @@ def buy():
 
 
 
-
+#update do carrinho
 @app.route("/update/")
 def update():
     # Initialize shopping cart variables
@@ -137,11 +151,13 @@ def filter():
         totItems += shoppingCart[i]["SUM(qty)"]
     # Render filtered view
     return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session )
-    # Render filtered view
+
  
 
   
-
+#quando marketplace efetua a compra
+#essa parte ta dando erro pois puxa no carrinho o uid que fazia parte da sessão do ususário e tirei
+#mas como n vamos utilizar, deixei dessa maneira msm, pra gente só ter uma base
 @app.route("/checkout/")
 def checkout():
     order = db.execute("SELECT * from cart")
@@ -157,8 +173,7 @@ def checkout():
     return redirect('/')
 
 
-
-
+#remove do carrinho
 @app.route("/remove/", methods=["GET"])
 def remove():
     # Get the id of shirt selected to be removed
@@ -178,24 +193,7 @@ def remove():
     # Render shopping cart
     return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session )
 
-
-
-
-@app.route("/history/")
-def history():
-    # Initialize shopping cart variables
-    shoppingCart = []
-    shopLen = len(shoppingCart)
-    totItems, total, display = 0, 0, 0
-    # Retrieve all shirts ever bought by current user
-    myShirts = db.execute("SELECT * FROM purchases WHERE uid=:uid", uid=session["uid"])
-    myShirtsLen = len(myShirts)
-    # Render table with shopping history of current user
-    return render_template("history.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, myShirts=myShirts, myShirtsLen=myShirtsLen)
-
-
-
-
+#página do carrinho (talvez eu tire)
 @app.route("/cart/")
 def cart():
     # Clear shopping cart variables

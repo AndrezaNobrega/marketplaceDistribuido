@@ -13,8 +13,8 @@ Loja de artigos esportivos
               <div class="card text-center">
                   <div class="card-body">
                     <form action="/buy/" methods="POST">
-                      <img src="static\img\mu.png" class="shirt" alt="" />
-                      <!-- <p>titulo</p>-->
+                      <img src="static\img\rm.png" class="shirt" alt="" />
+                      <!-- <p>titulo do card</p>-->
                       <h5 class="card-title">{{shirts[i]["team"]}}</h5>
                       {% if shirts[i]["onSale"] %} 
                         <h4 class="card-text price" style="color:red; display:inline">{{ '{:,.2f}'.format(shirts[i]["onSalePrice"]) }}</h4>
