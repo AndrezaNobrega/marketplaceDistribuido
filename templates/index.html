@@ -6,16 +6,17 @@ Loja de artigos esportivos
 
 {% block body %}
 <!-- Main Store Body -->
-      <div class="row" id="shirtCard">
+      <div class="row" id="shirtCard"> 
+        <!-- para exibir as camisetas -->
       {% for i in range(shirtsLen) %}
           <div class="col-sm">
               <div class="card text-center">
                   <div class="card-body">
                     <form action="/buy/" methods="POST">
-                      <img src="/static/img/{{shirts[i]["image"]}}" class="shirt" alt="" />
+                      <img src="static\img\mu.png" class="shirt" alt="" />
+                      <!-- <p>titulo</p>-->
                       <h5 class="card-title">{{shirts[i]["team"]}}</h5>
-                      {% if shirts[i]["onSale"] %}
-
+                      {% if shirts[i]["onSale"] %} 
                         <h4 class="card-text price" style="color:red; display:inline">{{ '{:,.2f}'.format(shirts[i]["onSalePrice"]) }}</h4>
                       {% else %}
                         <h4 class="card-text price">{{ '{:,.2f}'.format(shirts[i]["price"]) }}</h4>

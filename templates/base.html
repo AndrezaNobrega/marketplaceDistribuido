@@ -54,13 +54,13 @@
                         <td>{{ shoppingCart[i]["team"] }}</td>
                         <td>{{ shoppingCart[i]['SUM(qty)'] }}</td>
                         <td>{{ '${:,.2f}'.format(shoppingCart[i]["price"]) }}</td>
-                        <td>{{ '${:,.2f}'.format(shoppingCart[i]['SUM(subTotal)']) }}</td><!--
+                        <td>{{ '${:,.2f}'.format(shoppingCart[i]['SUM(subTotal)']) }}</td>
                         <td>
                           <form action="/remove/" methods="GET">
                             <input type="hidden" name="id" value="{{ shoppingCart[i]["id"] }}" />
                             <button type="submit" class="btn btn-secondary btn-sm" id="removeFromCart">Remove</button>
                           </form>
-                        </td>-->
+                        </td>
                       </tr>
                     </tbody>
                     {% endfor %}
@@ -70,7 +70,7 @@
                           <div class="modal-footer">
                             <a href="/cart/"><button type="button" class="btn btn-primary checkout">Alterar</button></a>
                             <button type="button" class="btn btn-primary checkout" data-dismiss="modal">Continue comprando</button>
-                            <a href="/checkout/"><button type="button" class="btn btn-success checkout">Encerrar compra</button></a>
+                            <a href="/checkout/"><button type="button" class="btn btn-success checkout">Concluir comprar</button></a>
                           </div>
                         </td>
                       </tr>
