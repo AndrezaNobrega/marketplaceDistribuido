@@ -1,26 +1,41 @@
-# Python program to update
-# JSON
-
-
+import streamlit as lit
+import pandas as pd 
+import numpy as np
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
+from pandas import json_normalize
+import streamlit as lit
 import json
+from pandas import json_normalize
 
+#teste para construir carrinho
 
-# function to add to JSON
-def write_json(new_data, filename='produtos.json'):
-	with open(filename,'r+') as file:
-		# First we load existing data into a dict.
-		file_data = json.load(file)
-		# Join new_data with file_data inside emp_details
-		file_data['produtos'].append(new_data)
-		# Sets file's current position at offset.
-		file.seek(0)
-		# convert back to json.
-		json.dump(file_data, file, indent = 4)
+lit.sidebar.title('Menu')
+paginaAdm = lit.sidebar.selectbox('Admin',['Cadastro de produto', 'Visualizar todos os produtos'])
+if paginaAdm == 'Cadastro de produto':
+	with open('produtos.json', 'r') as openfile:    
+			# Reading from json file
+		json_object = json.load(openfile)
+	data = json_normalize(json_object['produtos'])
 
-	# python object to be appended
-y = {"ID": "84c85fd3-fca1-49bd-91bb-5f674a5c8bad", 
-    "nome": "jshkdsf", 
-    "valor": 25.0, 
-    "varejista": "fugodfi"}
-	
-write_json(y)
+	gb = GridOptionsBuilder.from_dataframe(data)
+	gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
+	gb.configure_side_bar() #Add a sidebar
+	gb.configure_selection('multiple') #Enable multi-row selection
+	gridOptions = gb.build()
+
+	grid_response = AgGrid(
+		data,
+		gridOptions=gridOptions,
+		data_return_mode='AS_INPUT', 
+		update_mode='MODEL_CHANGED', 
+		fit_columns_on_grid_load=False,
+		enable_enterprise_modules=True,
+		height=350, 
+		width='100%',
+		reload_data=True
+	)
+
+	data = grid_response['data']
+	selected = grid_response['selected_rows'] 
+	df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
+	lit.dataframe(df)

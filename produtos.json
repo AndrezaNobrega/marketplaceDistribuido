@@ -29,6 +29,30 @@
             "nome": "sapato social",
             "valor": "7",
             "varejista": "Layla"
+        },
+        {
+            "ID": "5408",
+            "nome": "teste",
+            "valor": "25.0",
+            "varejista": "kadl"
+        },
+        {
+            "ID": "5081",
+            "nome": "teste",
+            "valor": "25.0",
+            "varejista": "kadl"
+        },
+        {
+            "ID": "8754",
+            "nome": "teste",
+            "valor": "25.0",
+            "varejista": "kadl"
+        },
+        {
+            "ID": "9940",
+            "nome": "dpsk",
+            "valor": "0.0",
+            "varejista": "dl\u00e7s"
         }
     ]
 }

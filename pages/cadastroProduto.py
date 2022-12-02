@@ -1,7 +1,10 @@
 import streamlit as lit
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 from random import *
 import json
 import visualizarProdutos
+
+
 #import model.Produto as produtoImp
 
 lit.sidebar.title('Menu')
@@ -14,6 +17,9 @@ if paginaAdm == 'Cadastro de produto':
         varejista = lit.text_input(label = 'Insira aqui o varejista') #aqui tem que aparecer as opções cadastradas no bd
         valor = lit.number_input(label= 'Digite aqui o valor do produto',step=1.,format="%.2f") 
         submit =  lit.form_submit_button('Cadastrar')
+
+
+
 
     if submit:
         id = str(randint(1000,9999)) #gera ID
@@ -37,6 +43,7 @@ if paginaAdm == 'Cadastro de produto':
         
         write_json(produto) #escrevendo o novo produto no BD  
         lit.success('Produto cadastrado com sucesso', icon="✅") 
+
        
 if paginaAdm == 'Visualizar todos os produtos':
     visualizarProdutos.visualizarTodos()
