@@ -39,6 +39,8 @@ def index():
         json_object = json.load(openfile)
         camisas = json_object['produtos'] 
         
+    #integrar o add ao carrinho
+    #modificar método buy p integrar 
 
     shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
     shopLen = len(shoppingCart)
