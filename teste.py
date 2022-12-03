@@ -22,3 +22,9 @@ camisas = json_object['produtos']
 
 for i in range(tamanho):	
 	print(camisas[i]['team'])
+
+for camisa in camisas:
+	if camisa['id'] == "2550":
+		resultado = camisa
+print (resultado)
+

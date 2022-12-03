@@ -1,0 +1,68 @@
+{
+    "carrinho": [
+        {
+            "id": "390",
+            "SUM(qty)": 5,
+            "team": "santos",
+            "image": "rm.png",
+            "price": 55,
+            "SUM(subTotal)": 55
+        },
+        {
+            "id": "390",
+            "SUM(qty)": 5,
+            "team": "flamengo",
+            "image": "rm.png",
+            "price": 55,
+            "SUM(subTotal)": 55
+        },
+        {
+            "id": 3714,
+            "SUM(qty)": 1,
+            "team": "celular",
+            "image": "mexico.jpg",
+            "price": 6546,
+            "SUM(subTotal)": 6546
+        },
+        {
+            "id": 3714,
+            "SUM(qty)": 1,
+            "team": "celular",
+            "image": "mexico.jpg",
+            "price": 6546,
+            "SUM(subTotal)": 6546
+        },
+        {
+            "id": 3714,
+            "SUM(qty)": 1,
+            "team": "celular",
+            "image": "mexico.jpg",
+            "price": 6546,
+            "SUM(subTotal)": 6546
+        },
+        {
+            "id": 3714,
+            "SUM(qty)": 2,
+            "team": "celular",
+            "image": "mexico.jpg",
+            "price": 6546,
+            "SUM(subTotal)": 13092
+        },
+        {
+            "id": 3714,
+            "SUM(qty)": 10,
+            "team": "celular",
+            "image": "mexico.jpg",
+            "price": 6546,
+            "SUM(subTotal)": 65460
+        },
+        {
+            "id": 3714,
+            "SUM(qty)": 1,
+            "team": "celular",
+            "image": "mexico.jpg",
+            "price": 6546,
+            "SUM(subTotal)": 6546
+        }
+    ]
+}
