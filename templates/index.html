@@ -13,7 +13,7 @@ Loja de artigos esportivos
               <div class="card text-center">
                   <div class="card-body">
                     <form action="/buy/" methods="POST">
-                      <img src="static\img\rm.png" class="shirt" alt="" />
+                      <img src="/static/img/{{shirts[i]["image"]}}" class="shirt" alt="" />
                       <!-- <p>titulo do card</p>-->
                       <h5 class="card-title">{{shirts[i]["team"]}}</h5>
                       {% if shirts[i]["onSale"] %} 

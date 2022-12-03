@@ -2,8 +2,8 @@
     "produtos": [
         {
             "id": "3714",
-            "team": "celular",
-            "image": 15.0,
+            "team": "nome produto",
+            "image": "mexico.jpg",
             "price": 256,
             "onSale": "celular",
             "onSalePrice": 256,
@@ -13,8 +13,19 @@
         },
         {
             "id": "3714",
-            "team": "celular",
-            "image": 15.0,
+            "team": "teste",
+            "image": "mexico.jpg",
+            "price": 6546,
+            "onSale": "celular",
+            "onSalePrice": 256,
+            "kind": "celular",
+            "continent": "celular"
+
+        },
+        {
+            "id": "3714",
+            "team": "lrlrsc",
+            "image": "mexico.jpg",
             "price": 6546,
             "onSale": "celular",
             "onSalePrice": 256,
@@ -25,18 +36,7 @@
         {
             "id": "3714",
             "team": "celular",
-            "image": 15.0,
-            "price": 6546,
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "kind": "celular",
-            "continent": "celular"
-
-        },
-        {
-            "id": "3714",
-            "team": "celular",
-            "image": 15.0,
+            "image": "mexico.jpg",
             "price": 654,
             "onSale": "celular",
             "onSalePrice": 256,
@@ -47,7 +47,7 @@
         {
             "id": "3714",
             "team": "celular",
-            "image": 15.0,
+            "image": "mexico.jpg",
             "price": 654,
             "onSale": "celular",
             "onSalePrice": 256,
@@ -58,7 +58,7 @@
         {
             "id": "3714",
             "team": "celular",
-            "image": 15.0,
+            "image": "mexico.jpg",
             "price": 6546,
             "onSale": "celular",
             "onSalePrice": 256,
