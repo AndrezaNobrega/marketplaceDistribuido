@@ -13,6 +13,12 @@ def pesquisaProduto(produto):
     #chama o metodo
     return jsonify('resultado')
 
+@app.route('/cadastrar/<produto>', methods=['GET'])  #buscar o valor da conta
+def cadastraProduto(produto):
+    #chama o metodo
+    return jsonify('resultado')
+
 #inicializando a API
 if __name__ == "__main__":
+    # TODO inicializar conexão com outros marketplaces ?
     app.run(host=' ', port=5000)

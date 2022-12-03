@@ -3,6 +3,8 @@ from flask_session import Session
 from flask import Flask, render_template, redirect, request, session, jsonify
 from datetime import datetime
 
+from controller import eventController
+
 import json
 from pandas import json_normalize
 
@@ -10,10 +12,11 @@ from pandas import json_normalize
 app = Flask(__name__)
 
 # # Configure sessions
-Session(app)
+# Session(app)
 
-# db sqlite - será substituido pelo json de visualização 
+# # db sqlite - será substituido pelo json de visualização 
 db = SQL ( "sqlite:///data.db" )
+# db = getProdutos()
 
 #carrinho de compras da sessão
 carrinho = []
@@ -158,12 +161,23 @@ def filter():
 #quando marketplace efetua a compra
 #essa parte ta dando erro pois puxa no carrinho o uid que fazia parte da sessão do ususário e tirei
 #mas como n vamos utilizar, deixei dessa maneira msm, pra gente só ter uma base
-@app.route("/checkout/")
-def checkout():
+@app.get("/checkout/")
+async def checkout():
     order = db.execute("SELECT * from cart")
     # Update purchase history of current customer
-    for item in order:
-        db.execute("INSERT INTO purchases (uid, id, team, image, quantity) VALUES(:uid, :id, :team, :image, :quantity)", uid=session["uid"], id=item["id"], team=item["team"], image=item["image"], quantity=item["qty"] )
+
+    # TODO enviar uma solicitação com a lista da compra para os peers
+    res = await eventController.orderEvent(order)
+    print (res)
+    # a função assincrona deve:
+        # Atualizar relogio
+        # enviar mensagens
+        # retornar apos resposta de todos os peers
+
+    # for item in order:
+    #     #nao é necessario registrar historico de compras, por isso o uid e essa query não são necessarios
+    #     db.execute("INSERT INTO purchases (uid, id, team, image, quantity) VALUES(:uid, :id, :team, :image, :quantity)", uid=session["uid"], id=item["id"], team=item["team"], image=item["image"], quantity=item["qty"] )
+
     # Clear shopping cart
     db.execute("DELETE from cart")
     shoppingCart = []
@@ -211,4 +225,5 @@ def cart():
 
 # Only needed if Flask run is not used to execute the server
 if __name__ == "__main__":
+    # deve enviar uma visualização do seu estoque como somente leitura para todos
     app.run( host='0.0.0.0', port=8080 )

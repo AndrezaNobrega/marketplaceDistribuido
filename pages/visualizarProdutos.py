@@ -11,5 +11,3 @@ def visualizarTodos():
         json_object = json.load(openfile)
     df = json_normalize(json_object['produtos'])
     lit.dataframe(df)
-    
-    
