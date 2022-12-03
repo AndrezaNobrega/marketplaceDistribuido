@@ -10,8 +10,6 @@ from pandas import json_normalize
 app = Flask(__name__)
 
 # # Configure sessions
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # db sqlite - será substituido pelo json de visualização 
@@ -36,13 +34,15 @@ def index():
     with open('produtos.json', 'r') as openfile:    
         # Reading from json file
         json_object = json.load(openfile)
+        camisas = json_object['produtos'] 
+        
 
     shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
     shopLen = len(shoppingCart)
     for i in range(shopLen):
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
-    shirts = db.execute("SELECT * FROM shirts ORDER BY team ASC") #AQ   
+    shirts = camisas
     shirtsLen = len(shirts)
     return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display)
 
