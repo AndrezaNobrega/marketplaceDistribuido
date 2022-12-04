@@ -19,6 +19,12 @@ db = SQL ( "sqlite:///data.db" )
 # db = getProdutos()
 
 
+
+#TODO tela de cadastro de produtos
+#TODO barra de pesquisa
+#TODO colocar quantidade de cada produto no banco de dados
+#TODO colocar as refs bootstrap nos arquivos p/ n depender da rede
+
 #index
 #está funcionando
 @app.route("/")
@@ -135,6 +141,7 @@ def buy():
 
 
 #update do carrinho
+#funciona
 @app.route("/update/")
 def update():
     # Initialize shopping cart variables
@@ -144,8 +151,7 @@ def update():
     #recebe quantidade e id das camisas selecionadas
     qty = int(request.args.get('quantity'))
     id = int(request.args.get('id'))
-    #deletar do carrinho camisa com ID recebido
-  
+
     #remove produto
     with open('carrinho.json', 'r') as json_file:    
         # Reading from json file
@@ -156,7 +162,7 @@ def update():
         if camisas['carrinho'][i]['id'] == id:
             camisas['carrinho'].pop(i)
             break
-    #reescreve no bd
+    #reescrevebd
     open("carrinho.json", "w").write(json.dumps(camisas, indent=4))
 
 
@@ -175,8 +181,6 @@ def update():
     goods = buscarCamisa(camisas, id)
     # Extract values from selected shirt record
     price = goods["price"]
-
-
     team = goods["team"]
     image = goods["image"]
     subTotal = qty * price
@@ -327,13 +331,16 @@ def remove():
     return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session )
 
 #pagina do carrinho 
+#funciona
 @app.route("/cart/")
 def cart():
     # Clear shopping cart variables
     totItems, total, display = 0, 0, 0
     # Grab info currently in database
-    shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
-    # Get variable values
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        shoppingCart = json_object['carrinho'] 
     shopLen = len(shoppingCart)
     for i in range(shopLen):
         total += shoppingCart[i]["SUM(subTotal)"]
