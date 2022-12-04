@@ -18,14 +18,6 @@
         },
         {
             "id": 3714,
-            "SUM(qty)": 10,
-            "team": "celular",
-            "image": "mexico.jpg",
-            "price": 6546,
-            "SUM(subTotal)": 65460
-        },
-        {
-            "id": 3714,
             "SUM(qty)": 1,
             "team": "celular",
             "image": "mexico.jpg",
@@ -39,6 +31,14 @@
             "image": "mexico.jpg",
             "price": 654,
             "SUM(subTotal)": 654
+        },
+        {
+            "id": 390,
+            "SUM(qty)": 10,
+            "team": "celular",
+            "image": "mexico.jpg",
+            "price": 654,
+            "SUM(subTotal)": 6540
         }
     ]
 }

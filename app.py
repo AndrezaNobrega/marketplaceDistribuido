@@ -174,13 +174,11 @@ def update():
         return camisa
     goods = buscarCamisa(camisas, id)
     # Extract values from selected shirt record
-    # Check if shirt is on sale to determine price
-    if(goods[0]["onSale"] == 1):
-        price = goods[0]["onSalePrice"]
-    else:
-        price = goods[0]["price"]
-    team = goods[0]["team"]
-    image = goods[0]["image"]
+    price = goods["price"]
+
+
+    team = goods["team"]
+    image = goods["image"]
     subTotal = qty * price
     # Insert selected shirt into shopping cart
    # Insert selected shirt into shopping cart
@@ -290,6 +288,7 @@ async def checkout():
 
 
 #remove do carrinho
+#está funcionando
 @app.route("/remove/", methods=["GET"])
 def remove():
     # Get the id of shirt selected to be removed
