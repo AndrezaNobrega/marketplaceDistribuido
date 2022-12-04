@@ -19,8 +19,6 @@ db = SQL ( "sqlite:///data.db" )
 # db = getProdutos()
 
 
-
-
 #index
 #está funcionando
 @app.route("/")
@@ -143,13 +141,38 @@ def update():
     shoppingCart = []
     shopLen = len(shoppingCart)
     totItems, total, display = 0, 0, 0
+    #recebe quantidade e id das camisas selecionadas
     qty = int(request.args.get('quantity'))
-
-    # Store id of the selected shirt
     id = int(request.args.get('id'))
-    db.execute("DELETE FROM cart WHERE id = :id", id=id)
+    #deletar do carrinho camisa com ID recebido
+  
+    #remove produto
+    with open('carrinho.json', 'r') as json_file:    
+        # Reading from json file
+        json_object = json.load(json_file)
+    tamanho = len(json_object['carrinho'])
+    camisas = json_object
+    for i in range(tamanho):	
+        if camisas['carrinho'][i]['id'] == id:
+            camisas['carrinho'].pop(i)
+            break
+    #reescreve no bd
+    open("carrinho.json", "w").write(json.dumps(camisas, indent=4))
+
+
+    # abre o dataBase para que a pesquisa seja feita
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        camisas = json_object['carrinho'] 
+
     # Select info of selected shirt from database
-    goods = db.execute("SELECT * FROM shirts WHERE id = :id", id=id)
+    def buscarCamisa(camisas, id):
+        for camisa in camisas:
+            if camisa['id'] == id:
+                goods = camisa
+        return camisa
+    goods = buscarCamisa(camisas, id)
     # Extract values from selected shirt record
     # Check if shirt is on sale to determine price
     if(goods[0]["onSale"] == 1):
@@ -160,10 +183,39 @@ def update():
     image = goods[0]["image"]
     subTotal = qty * price
     # Insert selected shirt into shopping cart
-    db.execute("INSERT INTO cart (id, qty, team, image, price, subTotal) VALUES (:id, :qty, :team, :image, :price, :subTotal)", id=id, qty=qty, team=team, image=image, price=price, subTotal=subTotal)
-    shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
+   # Insert selected shirt into shopping cart
+    #cria o novo produto 
+    produto = {"id": id,
+                "SUM(qty)": qty,
+                "team": team,
+                "image": image,
+                "price": price,
+                "SUM(subTotal)": subTotal
+
+    }
+    # function to add to JSON
+    def inserirProduto(new_data, filename='carrinho.json'):
+        with open(filename,'r+') as file:
+            # First we load existing data into a dict.
+            file_data = json.load(file)
+            # Join new_data with file_data inside emp_details
+            file_data['carrinho'].append(new_data)
+            # Sets file's current position at offset.
+            file.seek(0)
+            # convert back to json.
+            json.dump(file_data, file, indent = 4)
+        
+    inserirProduto(produto) #escrevendo o novo produto no BD  
+
+     #recarrega carrinho
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        shoppingCart = json_object['carrinho'] 
+
     shopLen = len(shoppingCart)
     # Rebuild shopping cart
+
     for i in range(shopLen):
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
@@ -242,12 +294,30 @@ async def checkout():
 def remove():
     # Get the id of shirt selected to be removed
     out = int(request.args.get("id"))
+
     # Remove shirt from shopping cart
-    db.execute("DELETE from cart WHERE id=:id", id=out)
+    with open('carrinho.json', 'r') as json_file:    
+        # Reading from json file
+        json_object = json.load(json_file)
+    tamanho = len(json_object['carrinho'])
+    camisas = json_object
+    for i in range(tamanho):	
+        if camisas['carrinho'][i]['id'] == out:
+            print(camisas['carrinho'][i]['id'])
+            camisas['carrinho'].pop(i)
+            break
+    #reescreve
+    open("carrinho.json", "w").write(json.dumps(camisas, indent=4))
+
     # Initialize shopping cart variables
     totItems, total, display = 0, 0, 0
     # Rebuild shopping cart
-    shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
+
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        shoppingCart = json_object['carrinho'] 
+
     shopLen = len(shoppingCart)
     for i in range(shopLen):
         total += shoppingCart[i]["SUM(subTotal)"]
@@ -257,7 +327,7 @@ def remove():
     # Render shopping cart
     return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session )
 
-#pagina do carrinho (talvez eu tire)
+#pagina do carrinho 
 @app.route("/cart/")
 def cart():
     # Clear shopping cart variables
