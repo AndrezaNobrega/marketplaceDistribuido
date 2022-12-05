@@ -4,7 +4,12 @@ from .peers import marketplaces
 
 
 async def orderEvent(items):
-    # await res from all peers
+    # await res from all 
+    # a função assincrona deve:
+        # Atualizar relogio
+        # enviar mensagens
+        # retornar apos resposta de todos os peers
+
     print('orderEvent')
     time.sleep(5)
     return 'OK'
