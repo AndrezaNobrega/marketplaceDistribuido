@@ -1,70 +1,54 @@
 {
     "produtos": [
         {
+            "continent": "celular",
             "id": "3714",
-            "team": "nome produto",
             "image": "mexico.jpg",
+            "kind": "celular",
+            "onSale": "celular",
+            "onSalePrice": 256,
             "price": 256,
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "kind": "celular",
-            "continent": "celular"
-
+            "team": "nome produto"
         },
         {
+            "continent": "celular",
             "id": "3714",
-            "team": "teste",
             "image": "mexico.jpg",
+            "kind": "celular",
+            "onSale": "celular",
+            "onSalePrice": 256,
             "price": 6546,
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "kind": "celular",
-            "continent": "celular"
-
+            "team": "teste"
         },
         {
+            "continent": "celular",
             "id": "3714",
-            "team": "lrlrsc",
             "image": "mexico.jpg",
+            "kind": "celular",
+            "onSale": "celular",
+            "onSalePrice": 256,
             "price": 6546,
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "kind": "celular",
-            "continent": "celular"
-
+            "team": "lrlrsc"
         },
         {
+            "continent": "celular",
             "id": "3714",
-            "team": "celular",
             "image": "mexico.jpg",
+            "kind": "celular",
+            "onSale": "celular",
+            "onSalePrice": 256,
             "price": 654,
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "kind": "celular",
-            "continent": "celular"
-
+            "team": "celular"
         },
         {
+            "continent": "celular",
             "id": "3714",
-            "team": "celular",
             "image": "mexico.jpg",
+            "kind": "celular",
+            "onSale": "celular",
+            "onSalePrice": 256,
             "price": 654,
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "kind": "celular",
-            "continent": "celular"
-
-        },
-        {
-            "id": "3714",
-            "team": "celular",
-            "image": "mexico.jpg",
-            "price": 6546,
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "kind": "celular",
-            "continent": "celular"
-
+            "team": "celular"
         }
     ]
 }

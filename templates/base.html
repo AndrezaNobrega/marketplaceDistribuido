@@ -45,7 +45,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    <!-- For Each shirt -->
+                    <!-- For Each shirt -->                    
                     {% if shopLen != 0 %}
                     {% for i in range(shopLen) %}
                       <tr>
@@ -127,7 +127,7 @@
         <button class="navbar-toggler" style="display:inline" type="button" data-toggle="modal" data-target="#modalCenter">
           <span class="glyphicon glyphicon-shopping-cart" data-toggle="modal" data-target="">
             <i class="fas fa-shopping-cart"></i>
-            <span class="counter">No. of Items: {{ totItems }}</span>
+            <span class="counter">Numero de items: {{ totItems }}</span>
             <span class="counter">Total: R${{ '{:,.2f}'.format(total) }}</span>
           </span>
         </button>

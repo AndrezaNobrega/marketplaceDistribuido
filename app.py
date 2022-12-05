@@ -18,16 +18,17 @@ app = Flask(__name__)
 db = SQL ( "sqlite:///data.db" )
 # db = getProdutos()
 
-#carrinho de compras da sessão
-carrinho = []
 
+
+#TODO tela de cadastro de produtos
+#TODO barra de pesquisa
+#TODO colocar quantidade de cada produto no banco de dados
+#TODO colocar as refs bootstrap nos arquivos p/ n depender da rede
 
 #index
+#está funcionando
 @app.route("/")
 def index():
-    shirts = db.execute("SELECT * FROM shirts ORDER BY team ASC")
-    shirtsLen = len(shirts)
-    # Initialize variables    
     shoppingCart = []
     shopLen = len(shoppingCart)
     totItems, total, display = 0, 0, 0
@@ -39,9 +40,13 @@ def index():
         json_object = json.load(openfile)
         camisas = json_object['produtos'] 
         
+    #integrar o add ao carrinho
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        shoppingCart = json_object['carrinho'] 
+        shopLen = len(shoppingCart)
 
-    shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
-    shopLen = len(shoppingCart)
     for i in range(shopLen):
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
@@ -51,36 +56,84 @@ def index():
 
 
 #para inserir no carrinho
+#está funcionando
 @app.route("/buy/")
 def buy():
     # Initialize shopping cart variables
     shoppingCart = []
     shopLen = len(shoppingCart)
     totItems, total, display = 0, 0, 0
+    #quantidade inserida pelo usuário
     qty = int(request.args.get('quantity'))
-    # Store id of the selected shirt
+    # id da camisa selecionada
     id = int(request.args.get('id'))
+
+    # abre o dataBase para que a pesquisa seja feita
+    with open('produtos.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        camisas = json_object['produtos'] 
+
     # Select info of selected shirt from database
-    goods = db.execute("SELECT * FROM shirts WHERE id = :id", id=id)
+    def buscarCamisa(camisas, id):
+        for camisa in camisas:
+            if camisa['id'] == id:
+                goods = camisa
+        return camisa
+    goods = buscarCamisa(camisas, id)
+
     # Extract values from selected shirt record
     # Check if shirt is on sale to determine price
-    if(goods[0]["onSale"] == 1):
-        price = goods[0]["onSalePrice"]
+    if(goods["onSale"] == 1):
+        price = goods["onSalePrice"]
     else:
-        price = goods[0]["price"]
-    team = goods[0]["team"]
-    image = goods[0]["image"]
+        price = goods["price"]
+    team = goods["team"]
+    image = goods["image"]
     subTotal = qty * price
+
     # Insert selected shirt into shopping cart
-    db.execute("INSERT INTO cart (id, qty, team, image, price, subTotal) VALUES (:id, :qty, :team, :image, :price, :subTotal)", id=id, qty=qty, team=team, image=image, price=price, subTotal=subTotal)
-    shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
+    #cria o novo produto 
+    produto = {"id": id,
+                "SUM(qty)": qty,
+                "team": team,
+                "image": image,
+                "price": price,
+                "SUM(subTotal)": subTotal
+
+    }
+    # function to add to JSON
+    def inserirProduto(new_data, filename='carrinho.json'):
+        with open(filename,'r+') as file:
+            # First we load existing data into a dict.
+            file_data = json.load(file)
+            # Join new_data with file_data inside emp_details
+            file_data['carrinho'].append(new_data)
+            # Sets file's current position at offset.
+            file.seek(0)
+            # convert back to json.
+            json.dump(file_data, file, indent = 4)
+        
+    inserirProduto(produto) #escrevendo o novo produto no BD  
+    
+    #recarrega carrinho
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        shoppingCart = json_object['carrinho'] 
+
     shopLen = len(shoppingCart)
     # Rebuild shopping cart
+
     for i in range(shopLen):
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
     # Select all shirts for home page view
-    shirts = db.execute("SELECT * FROM shirts ORDER BY team ASC")
+    with open('produtos.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        shirts = json_object['produtos'] 
+
     shirtsLen = len(shirts)
     # Go back to home page
     return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session )
@@ -88,33 +141,83 @@ def buy():
 
 
 #update do carrinho
+#funciona
 @app.route("/update/")
 def update():
     # Initialize shopping cart variables
     shoppingCart = []
     shopLen = len(shoppingCart)
     totItems, total, display = 0, 0, 0
+    #recebe quantidade e id das camisas selecionadas
     qty = int(request.args.get('quantity'))
-
-    # Store id of the selected shirt
     id = int(request.args.get('id'))
-    db.execute("DELETE FROM cart WHERE id = :id", id=id)
+
+    #remove produto
+    with open('carrinho.json', 'r') as json_file:    
+        # Reading from json file
+        json_object = json.load(json_file)
+    tamanho = len(json_object['carrinho'])
+    camisas = json_object
+    for i in range(tamanho):	
+        if camisas['carrinho'][i]['id'] == id:
+            camisas['carrinho'].pop(i)
+            break
+    #reescrevebd
+    open("carrinho.json", "w").write(json.dumps(camisas, indent=4))
+
+
+    # abre o dataBase para que a pesquisa seja feita
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        camisas = json_object['carrinho'] 
+
     # Select info of selected shirt from database
-    goods = db.execute("SELECT * FROM shirts WHERE id = :id", id=id)
+    def buscarCamisa(camisas, id):
+        for camisa in camisas:
+            if camisa['id'] == id:
+                goods = camisa
+        return camisa
+    goods = buscarCamisa(camisas, id)
     # Extract values from selected shirt record
-    # Check if shirt is on sale to determine price
-    if(goods[0]["onSale"] == 1):
-        price = goods[0]["onSalePrice"]
-    else:
-        price = goods[0]["price"]
-    team = goods[0]["team"]
-    image = goods[0]["image"]
+    price = goods["price"]
+    team = goods["team"]
+    image = goods["image"]
     subTotal = qty * price
     # Insert selected shirt into shopping cart
-    db.execute("INSERT INTO cart (id, qty, team, image, price, subTotal) VALUES (:id, :qty, :team, :image, :price, :subTotal)", id=id, qty=qty, team=team, image=image, price=price, subTotal=subTotal)
-    shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
+   # Insert selected shirt into shopping cart
+    #cria o novo produto 
+    produto = {"id": id,
+                "SUM(qty)": qty,
+                "team": team,
+                "image": image,
+                "price": price,
+                "SUM(subTotal)": subTotal
+
+    }
+    # function to add to JSON
+    def inserirProduto(new_data, filename='carrinho.json'):
+        with open(filename,'r+') as file:
+            # First we load existing data into a dict.
+            file_data = json.load(file)
+            # Join new_data with file_data inside emp_details
+            file_data['carrinho'].append(new_data)
+            # Sets file's current position at offset.
+            file.seek(0)
+            # convert back to json.
+            json.dump(file_data, file, indent = 4)
+        
+    inserirProduto(produto) #escrevendo o novo produto no BD  
+
+     #recarrega carrinho
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        shoppingCart = json_object['carrinho'] 
+
     shopLen = len(shoppingCart)
     # Rebuild shopping cart
+
     for i in range(shopLen):
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
@@ -165,6 +268,7 @@ def filter():
 async def checkout():
     order = db.execute("SELECT * from cart")
     # Update purchase history of current customer
+    # precisa enviar para todas as lojas a requisição
 
     # TODO enviar uma solicitação com a lista da compra para os peers
     res = await eventController.orderEvent(order)
@@ -184,16 +288,35 @@ async def checkout():
 
 
 #remove do carrinho
+#está funcionando
 @app.route("/remove/", methods=["GET"])
 def remove():
     # Get the id of shirt selected to be removed
     out = int(request.args.get("id"))
+
     # Remove shirt from shopping cart
-    db.execute("DELETE from cart WHERE id=:id", id=out)
+    with open('carrinho.json', 'r') as json_file:    
+        # Reading from json file
+        json_object = json.load(json_file)
+    tamanho = len(json_object['carrinho'])
+    camisas = json_object
+    for i in range(tamanho):	
+        if camisas['carrinho'][i]['id'] == out:
+            print(camisas['carrinho'][i]['id'])
+            camisas['carrinho'].pop(i)
+            break
+    #reescreve
+    open("carrinho.json", "w").write(json.dumps(camisas, indent=4))
+
     # Initialize shopping cart variables
     totItems, total, display = 0, 0, 0
     # Rebuild shopping cart
-    shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
+
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        shoppingCart = json_object['carrinho'] 
+
     shopLen = len(shoppingCart)
     for i in range(shopLen):
         total += shoppingCart[i]["SUM(subTotal)"]
@@ -203,14 +326,17 @@ def remove():
     # Render shopping cart
     return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session )
 
-#página do carrinho (talvez eu tire)
+#pagina do carrinho 
+#funciona
 @app.route("/cart/")
 def cart():
     # Clear shopping cart variables
     totItems, total, display = 0, 0, 0
     # Grab info currently in database
-    shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
-    # Get variable values
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        shoppingCart = json_object['carrinho'] 
     shopLen = len(shoppingCart)
     for i in range(shopLen):
         total += shoppingCart[i]["SUM(subTotal)"]
@@ -222,4 +348,5 @@ def cart():
 # Only needed if Flask run is not used to execute the server
 if __name__ == "__main__":
     # deve enviar uma visualização do seu estoque como somente leitura para todos
+    # lembrar de alterar IP para apresentação
     app.run( host='0.0.0.0', port=8080 )
