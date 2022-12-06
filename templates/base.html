@@ -105,9 +105,11 @@
           <strong><i class="far fa-futbol"></i> Loja de artigos esportivos</strong>
       </a>
       {% if session %}
-      <ul class="navbar-nav mr-auto">
       {% else %}
-      <ul class="navbar-nav mr-auto">
+
+        <ul class="navbar-nav mr-auto">
+                              <!-- Colocar ref para página de cadastro -->    
+          <li class="nav-item"><a href="/logout/" class="nav-link">Cadastrar novo produto</a></li>
       {% endif %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -119,7 +121,7 @@
               <a class="dropdown-item" href="/filter/?continent=americas">Americas</a>
               <a class="dropdown-item" href="/filter/?continent=africa">Africa</a>
               <a class="dropdown-item" href="/filter/?sale=1">A venda</a>
-              <a class="dropdown-item" href="/filter/?price=1">Preços R$0-$000</a>
+              <a class="dropdown-item" href="/filter/?price=1">Preços em orderm crescente</a>
           </div>
         </li>
       </ul>

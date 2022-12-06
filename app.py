@@ -1,12 +1,12 @@
 from cs50 import SQL
 from flask_session import Session
 from flask import Flask, render_template, redirect, request, session, jsonify
-from datetime import datetime
+
+from random import *
+import json
 
 from controller import eventController
 
-import json
-from pandas import json_normalize
 
 # # Instantiate Flask object named app
 app = Flask(__name__)
@@ -20,8 +20,7 @@ db = SQL ( "sqlite:///data.db" )
 
 
 
-#TODO tela de cadastro de produtos
-#TODO barra de pesquisa (?)
+#TODO tela de cadastro de produtos 
 #TODO colocar quantidade de cada produto no banco de dados
 #TODO colocar as refs bootstrap nos arquivos p/ n depender da rede
 
