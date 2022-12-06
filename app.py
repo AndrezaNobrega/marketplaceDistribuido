@@ -1,6 +1,6 @@
 from cs50 import SQL
 from flask_session import Session
-from flask import Flask, render_template, redirect, request, session, jsonify
+from flask import Flask, render_template, redirect, request, session, Response
 from datetime import datetime
 
 from controller import eventController
@@ -10,7 +10,8 @@ from pandas import json_normalize
 
 # # Instantiate Flask object named app
 app = Flask(__name__)
-
+clock = [0,0,0]
+PORTA = int(input("PORTA="))
 # # Configure sessions
 # Session(app)
 
@@ -260,18 +261,18 @@ def filter():
 
  
 
-  
+# ---------------------------- funções de acesso ao db compartilhado -----------------------------------------------------
+
 #quando marketplace efetua a compra
 #essa parte ta dando erro pois puxa no carrinho o uid que fazia parte da sessão do ususário e tirei
 #mas como n vamos utilizar, deixei dessa maneira msm, pra gente só ter uma base
 @app.get("/checkout/")
-async def checkout():
-    order = db.execute("SELECT * from cart")
-    # Update purchase history of current customer
+def checkout():
+    order = db.execute("SELECT * from cart")    
+    # order = list
     # precisa enviar para todas as lojas a requisição
-
     # TODO enviar uma solicitação com a lista da compra para os peers
-    res = await eventController.orderEvent(order)
+    res = eventController.orderEvent(order, clock=clock,id=(PORTA-3030))
     print (res)
 
     # for item in order:
@@ -286,6 +287,20 @@ async def checkout():
     # Redirect to home page
     return redirect('/')
 
+@app.get("/compra")
+def compra():
+    # deve verificar se os itens da compra pertencem ao BD LOCAL
+    print(request.args.to_dict())   # está vindo vazio...
+        # se pertencem:
+            # deve verificar ordem do relógio de mensagem
+                # se o relógio for maior que o atual
+                # deve incrementar o relógio
+                # deve permitir a compra
+                # deve enviar resposta OK
+        # se não pertencem
+            # deve incrementar o relógio
+            # 
+    return Response({'res':'OK'}, 200)
 
 #remove do carrinho
 #está funcionando
