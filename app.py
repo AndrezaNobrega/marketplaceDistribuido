@@ -21,7 +21,7 @@ db = SQL ( "sqlite:///data.db" )
 
 
 #TODO tela de cadastro de produtos
-#TODO barra de pesquisa
+#TODO barra de pesquisa (?)
 #TODO colocar quantidade de cada produto no banco de dados
 #TODO colocar as refs bootstrap nos arquivos p/ n depender da rede
 
