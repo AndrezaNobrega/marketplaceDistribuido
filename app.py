@@ -273,10 +273,6 @@ async def checkout():
     # TODO enviar uma solicitação com a lista da compra para os peers
     res = await eventController.orderEvent(order)
     print (res)
-    # a função assincrona deve:
-        # Atualizar relogio
-        # enviar mensagens
-        # retornar apos resposta de todos os peers
 
     # for item in order:
     #     #nao é necessario registrar historico de compras, por isso o uid e essa query não são necessarios
