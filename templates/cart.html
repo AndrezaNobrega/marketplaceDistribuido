@@ -42,10 +42,10 @@ Soccer Jersey Store - Home
                         <td><form action="/update/">
                             <input type="hidden" name="id" value="{{shoppingCart[i]["id"]}}" />
                             <input type="number" name="quantity" min="1" max="10" size="5" value="{{ shoppingCart[i]['SUM(qty)'] }}">
-                            <button type="submit" class="btn btn-warning checkout">Update</button>
+                            <button type="submit" class="btn btn-warning checkout">Atualizar</button>
                           </form></td>
-                        <td>{{ '${:,.2f}'.format(shoppingCart[i]["price"]) }}</td>
-                        <td>{{ '${:,.2f}'.format(shoppingCart[i]['SUM(subTotal)']) }}</td>
+                        <td>{{ 'R${:,.2f}'.format(shoppingCart[i]["price"]) }}</td>
+                        <td>{{ 'R${:,.2f}'.format(shoppingCart[i]['SUM(subTotal)']) }}</td>
                         <td>
                           <form action="/remove/" methods="GET">
                             <input type="hidden" name="id" value="{{ shoppingCart[i]["id"] }}" />
@@ -57,7 +57,7 @@ Soccer Jersey Store - Home
                     {% endfor %}
                     <tfoot>
                       <tr>
-                        <td colSpan="7">Total: {{ '${:,.2f}'.format(total) }}<br /><br />
+                        <td colSpan="7">Total: {{ 'R${:,.2f}'.format(total) }}<br /><br />
                           <div class="modal-footer">
                             <a href="/"><button type="button" class="btn btn-primary checkout">Continue comprandp</button></a>
                             <a href="/checkout/"><button type="button" class="btn btn-success checkout">Efetuar compra</button></a>

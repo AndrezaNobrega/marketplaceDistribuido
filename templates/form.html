@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+Loja de artigos esportivos
+{% endblock %}
+
+<html lang="en">
+
+    <head>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#000000">
+        <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
+        <link href="{{ url_for('static',filename='css/custom.css') }}" rel="stylesheet" type="text/css" />
+        <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+        <title> Loja - Cadastro de produtos</title>
+        
+    </head>     
+<div class="formbold-input-flex">   
+    <h1>Tela de cadastro de camisetas</h1> 
+<form action="/data" method = "POST">
+    <p>Time<input type = "text" name = "team" /></p>
+    <p>Preço<input type = "text" name = "price" /></p>
+    <p>País<input type = "text" name = "Country" /></p>
+    <p>Continent<input type = "text" name = "Continent" /></p>
+    <p>Tipo (Nacional ou não) <input type = "text" name = "kind" /></p>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
+</div>
+</div>
