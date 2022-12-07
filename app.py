@@ -271,8 +271,9 @@ def checkout():
     # order = list
     # precisa enviar para todas as lojas a requisição
     # TODO enviar uma solicitação com a lista da compra para os peers
-    res = eventController.orderEvent(order, clock=clock,id=(PORTA-3030))
-    print (res)
+    event = eventController.orderEvent(order, clock=clock,id=(PORTA-3030))
+    print('Event res: ')
+    print (event)
 
     # for item in order:
     #     #nao é necessario registrar historico de compras, por isso o uid e essa query não são necessarios
@@ -286,10 +287,12 @@ def checkout():
     # Redirect to home page
     return redirect('/')
 
+# Rota por onde são recebidas as solicitações para compra (acesso ao DB)
 @app.get("/compra")
 def compra():
     # deve verificar se os itens da compra pertencem ao BD LOCAL
-    print(request.args.to_dict())   # está vindo vazio...
+    print("request args: ")
+    print(request.args('query'))   # está vindo vazio...
         # se pertencem:
             # deve verificar ordem do relógio de mensagem
                 # se o relógio for maior que o atual

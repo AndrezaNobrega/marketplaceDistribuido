@@ -12,9 +12,8 @@ def orderEvent(items, clock, id):
     for i in range(len(marketplaces)):
         if ((marketplaces[i]['porta']-3030)!=id):
             url = f"http://localhost:{marketplaces[i]['porta']}/compra"
-            PARAMS = items
+            PARAMS = {'query':items}
             r = requests.get(url, PARAMS)
-            print(r)
             res.append(r)
 
     # a função assincrona deve:
@@ -24,4 +23,4 @@ def orderEvent(items, clock, id):
 
     print('orderEvent')
     time.sleep(5)
-    return 'OK'
+    return res
