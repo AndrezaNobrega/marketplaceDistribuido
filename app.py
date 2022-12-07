@@ -84,15 +84,15 @@ def data():
                     "image": "brasil.jpg",
                     "kind": tipo,
                     "onSale": 0,
-                    "onSalePrice": preco,
-                    "price": preco,
+                    "onSalePrice": float(preco),
+                    "price": float(preco),
                     "team": time
         }
 
 
 
         # function to add to JSON
-        def write_json(new_data, filename='bdMarketplace.json'):
+        def write_json(new_data, filename):
             with open(filename,'r+') as file:
                 # First we load existing data into a dict.
                 file_data = json.load(file)
@@ -103,7 +103,8 @@ def data():
                 # convert back to json.
                 json.dump(file_data, file, indent = 4)
         
-        write_json(produto) #escrevendo o novo produto no BD  
+        write_json(produto, 'bdMarketplace.json') #escrevendo o novo produto no BD  
+        write_json(produto, 'produtos.json') #envia para a sua própria galeria 
 
         #para recarregar a página index ao escrever a nova camisa no db
         shoppingCart = []
