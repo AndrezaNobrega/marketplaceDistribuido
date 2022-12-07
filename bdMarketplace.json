@@ -1,0 +1,24 @@
+{
+    "produtos": [
+        {
+            "continent": "celular",
+            "id": "3714",
+            "image": "mexico.jpg",
+            "kind": "celular",
+            "onSale": "celular",
+            "onSalePrice": 256,
+            "price": 256,
+            "team": "nome produto"
+        },
+        {
+            "continent": "celular",
+            "id": "3714",
+            "image": "mexico.jpg",
+            "kind": "celular",
+            "onSale": "celular",
+            "onSalePrice": 256,
+            "price": 6546,
+            "team": "teste"
+        }
+    ]
+}
