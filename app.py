@@ -17,7 +17,7 @@ PORTA = int(input("PORTA="))
 
 # # db sqlite - será substituido pelo json de visualização 
 db = SQL ( "sqlite:///data.db" )
-# db = getProdutos()
+
 
 
 
@@ -226,7 +226,7 @@ def update():
 
 
 
-
+#editando no momento para integrar c o json
 @app.route("/filter/")
 def filter():
     if request.args.get('continent'):
