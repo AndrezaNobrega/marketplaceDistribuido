@@ -2,6 +2,7 @@
     "produtos": [
         {
             "continent": "celular",
+            "quantidade": 5,
             "id": "3714",
             "image": "mexico.jpg",
             "kind": "celular",
@@ -12,6 +13,7 @@
         },
         {
             "continent": "celular",
+            "quantidade": 1,
             "id": "3714",
             "image": "mexico.jpg",
             "kind": "celular",
@@ -19,36 +21,7 @@
             "onSalePrice": 256,
             "price": 6546,
             "team": "teste"
-        },
-        {
-            "continent": "celular",
-            "id": "3714",
-            "image": "mexico.jpg",
-            "kind": "celular",
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "price": 6546,
-            "team": "lrlrsc"
-        },
-        {
-            "continent": "celular",
-            "id": "3714",
-            "image": "mexico.jpg",
-            "kind": "celular",
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "price": 654,
-            "team": "celular"
-        },
-        {
-            "continent": "celular",
-            "id": "3714",
-            "image": "mexico.jpg",
-            "kind": "celular",
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "price": 654,
-            "team": "celular"
         }
+
     ]
 }

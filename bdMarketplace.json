@@ -2,7 +2,8 @@
     "produtos": [
         {
             "continent": "celular",
-            "id": "3714",
+            "quantidade": 5,
+            "id": "3715",
             "image": "mexico.jpg",
             "kind": "celular",
             "onSale": "celular",
@@ -11,13 +12,25 @@
             "team": "nome produto"
         },
         {
-            "continent": "celular",
+            "continent": "ioefio",
+            "quantidade": 5,
             "id": "3714",
             "image": "mexico.jpg",
             "kind": "celular",
             "onSale": "celular",
             "onSalePrice": 256,
             "price": 6546,
+            "team": "teste"
+        },
+        {
+            "continent": "america",
+            "quantidade": "2",
+            "id": "4493",
+            "image": "brasil.jpg",
+            "kind": "nao",
+            "onSale": 0,
+            "onSalePrice": "500",
+            "price": "500",
             "team": "teste"
         }
     ]
