@@ -1,5 +1,3 @@
-from cs50 import SQL
-from flask_session import Session
 from flask import Flask, jsonify, render_template, redirect, request, session, Response
 
 from random import *
@@ -12,6 +10,7 @@ from controller import eventController
 app = Flask(__name__)
 clock = [0,0,0]
 PORTA = int(input("PORTA="))
+NOME = input('Nome que deseja para a loja:')
 # # Configure sessions
 # Session(app)
 
@@ -29,7 +28,7 @@ def index():
         json_object = json.load(openfile)
         camisas = json_object['produtos'] 
         
-    #integrar o add ao carrinho
+    #ele abre o carrinho
     with open('carrinho.json', 'r') as openfile:    
         # Reading from json file
         json_object = json.load(openfile)
@@ -41,7 +40,7 @@ def index():
         totItems += shoppingCart[i]["SUM(qty)"]
     shirts = camisas
     shirtsLen = len(shirts)
-    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display)
+    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, nome = NOME)
 
 #cadastro de produtos
 #no BdMarketplace
@@ -115,7 +114,7 @@ def data():
         shirts = camisas
         shirtsLen = len(shirts)
 
-        return render_template("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session)
+        return render_template("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session, nome = NOME)
 
 #para pesquisar na galeria.
 #aqui é possível pesquisar os produtos disponíveis em todos os 
@@ -152,12 +151,14 @@ def resultadoPesquisa():
         print(pesquisaResultado)
     shirts = pesquisaResultado
     shirtsLen = len(shirts)
+    #inicializando as variaveis 
     # Initialize shopping cart variables
     shoppingCart = []
     shopLen = len(shoppingCart)
     totItems, total, display = 0, 0, 0
 
     #abre o arquivo do carrinho
+    #para retornar para o indice
     with open('carrinho.json', 'r') as openfile:    
         # Reading from json file
         json_object = json.load(openfile)
@@ -169,7 +170,7 @@ def resultadoPesquisa():
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
     # Render filtered view
-    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session )
+    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
  
 #para inserir no carrinho
 #está funcionando
@@ -252,7 +253,7 @@ def buy():
 
     shirtsLen = len(shirts)
     # Go back to home page
-    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session )
+    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
 
 
 
@@ -337,7 +338,7 @@ def update():
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
     # Go back to cart page
-    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session )
+    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
 
 def ler_json(arquivo):
     with open(arquivo, 'r') as openfile:    
@@ -412,8 +413,7 @@ def remove():
     totItems, total, display = 0, 0, 0
     # Rebuild shopping cart
 
-    with open('carrinho.json', 'r') as openfile:    
-        # Reading from json file
+    with open('carrinho.json', 'r') as openfile:  
         json_object = json.load(openfile)
         shoppingCart = json_object['carrinho'] 
 
@@ -424,7 +424,7 @@ def remove():
     # Turn on "remove success" flag
     display = 1
     # Render shopping cart
-    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session )
+    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
 
 #pagina do carrinho 
 @app.route("/cart/")
@@ -441,7 +441,7 @@ def cart():
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
     # Render shopping cart
-    return render_template("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session)
+    return render_template("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, nome = NOME)
 
 
 # Only needed if Flask run is not used to execute the server

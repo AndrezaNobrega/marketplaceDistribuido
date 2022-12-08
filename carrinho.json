@@ -1,3 +1,12 @@
 {
-    "carrinho": []
+    "carrinho": [
+        {
+            "id": 3714,
+            "SUM(qty)": 1,
+            "team": "flamengo",
+            "image": "fla.png",
+            "price": 500.0,
+            "SUM(subTotal)": 500.0
+        }
+    ]
 }
