@@ -79,7 +79,7 @@
         },
         {
             "continent": "america",
-            "quantidade": "5",
+            "quantidade": 5,
             "id": "7408",
             "image": "brasil.jpg",
             "kind": "nao",

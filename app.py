@@ -8,14 +8,15 @@ from controller import eventController
 
 # # Instantiate Flask object named app
 app = Flask(__name__)
-clock = [0,0,0]
+CLOCK = [0,0,0]
 PORTA = int(input("PORTA="))
-NOME = input('Nome que deseja para a loja:')
+this_id = (PORTA-3030)
+# NOME = input('Nome que deseja para a loja:')
 # # Configure sessions
 # Session(app)
 
 # # db sqlite - será substituido pelo json de visualização 
-db = SQL ( "sqlite:///data.db" )
+# db = SQL( "sqlite:///data.db" )
 DATABASE = 'bdMarketplace.json'
 
 
@@ -50,7 +51,7 @@ def index():
         totItems += shoppingCart[i]["SUM(qty)"]
     shirts = camisas
     shirtsLen = len(shirts)
-    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, nome = NOME)
+    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display)
 
 #cadastro de produtos
 #no BdMarketplace
@@ -124,7 +125,7 @@ def data():
         shirts = camisas
         shirtsLen = len(shirts)
 
-        return render_template("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session, nome = NOME)
+        return render_template("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session)
 
 #para pesquisar na galeria.
 #aqui é possível pesquisar os produtos disponíveis em todos os 
@@ -180,7 +181,7 @@ def resultadoPesquisa():
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
     # Render filtered view
-    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
+    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session)
  
 #para inserir no carrinho
 #está funcionando
@@ -263,7 +264,7 @@ def buy():
 
     shirtsLen = len(shirts)
     # Go back to home page
-    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
+    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session)
 
 
 
@@ -348,7 +349,7 @@ def update():
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
     # Go back to cart page
-    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
+    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session)
 
 def ler_json(arquivo, atributo):
     with open(arquivo, 'r') as openfile:    
@@ -359,13 +360,20 @@ def ler_json(arquivo, atributo):
 
 def compraAutorizada(list):
     for it in range(0, len(list)):
-        if (it != 'OK'): 
+        if (list[it]['res'] != 'OK'): 
             return False
     return True
 
 def limparCarrinho():
-    with open('carrinho.json', 'w') as openfile:
-        openfile.close()
+    with open('carrinho.json', 'r') as openfile:
+        json_object = json.load(openfile)
+        json_object['carrinho'] = []
+        json_file = json_object['carrinho']
+    return json_file
+
+def vector_compare(vector1,vector2):
+    vector = [max(value) for value in zip(vector1,vector2)]
+    return vector
 
 # ---------------------------- funções de acesso ao db compartilhado -----------------------------------------------------
 
@@ -377,28 +385,45 @@ def checkout():
     #   order = lista de dicts
     order = ler_json('carrinho.json', 'carrinho')
     # precisa enviar para todas as lojas a requisição
-    # TODO enviar uma solicitação com a lista da compra para os peers
-    res = eventController.orderEvent(order, clock=clock,id=(PORTA-3030))    # lista com n respostas
+    CLOCK[this_id] += 1
+    res = json.loads(eventController.orderEvent(order, clock=CLOCK,id=(PORTA-3030)))   # {"clock":clock,"res":res}
+    print('res from eventController')
+    print(type(res))
+    print(res)
     # se todas as respostas foram OK, prossegue a compra
         # onde define se é ok ou não é no /compra do marketplace
-    if (compraAutorizada(res)):
+    if (compraAutorizada(res['res'])):
         # Clear shopping cart
         limparCarrinho()
         # Redirect to home page
         return redirect('/')
     # se não, cancela a compra
-    return jsonify(res='A compra não foi autorizada. Tente novamente mais tarde.')
+    return ('<script>alert("A compra nao foi autorizada. Tente novamente mais tarde.")</script>')
 
 # Rota por onde são recebidas as solicitações para compra (acesso ao DB)
 @app.post("/compra")
 def compra():
     # deve verificar se os itens da compra pertencem ao BD LOCAL
-    dblocal = ler_json(DATABASE, 'produtos')
-    req = request.get_json() # está chegando normalmente (lista)
-    # for item in req:
-    #     if item['id'] in dblocal['produtos']:
-    #         # mapear a lista dblocal['produtos'] e decrementar a quantidade da compra do estoque
-
+    print(f'this_id={this_id}')
+    CLOCK[this_id] += 1
+    dblocal = ler_json(DATABASE, 'produtos')    # lista de dict
+    req = json.loads(request.get_json()) # {"clock":[clock],"items":[items]}
+    print('req')
+    print(type(req))
+    print(req)
+    res = {"clock":[], "res":[]}
+    for item in req["items"]:
+        for product in dblocal:
+            if ((item['id'] == product['id']) & (vector_compare(CLOCK, req['clock']) > CLOCK)):
+                # mapear a lista dblocal['produtos'] e decrementar a quantidade da compra do estoque
+                clk = vector_compare(CLOCK, req['clock'])
+                res['clock'] = clk
+                product['quantidade'] -= 1
+                res['res'] = 'OK'
+                return jsonify(clock=res['clock'], res=res['res'])
+            else:
+                continue
+    
         # se pertencem:
             # deve verificar ordem do relógio de mensagem
                 # se o relógio for maior que o atual
@@ -407,8 +432,12 @@ def compra():
                 # deve enviar resposta OK
         # se não pertencem
             # deve incrementar o relógio
+            # deve negar a compra
     print('request json on return')
-    return req
+    print(req)
+    print('dblocal items')
+    print(dblocal)
+    return jsonify(clock=req['clock'], res='NO')
 
 #remove do carrinho
 @app.route("/remove/", methods=["GET"])
@@ -445,7 +474,7 @@ def remove():
     # Turn on "remove success" flag
     display = 1
     # Render shopping cart
-    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
+    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session)
 
 #pagina do carrinho 
 @app.route("/cart/")
@@ -462,7 +491,7 @@ def cart():
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
     # Render shopping cart
-    return render_template("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, nome = NOME)
+    return render_template("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session)
 
 
 # Only needed if Flask run is not used to execute the server
