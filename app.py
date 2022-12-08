@@ -1,5 +1,3 @@
-from cs50 import SQL
-from flask_session import Session
 from flask import Flask, jsonify, render_template, redirect, request, session, Response
 
 from random import *
@@ -12,6 +10,7 @@ from controller import eventController
 app = Flask(__name__)
 clock = [0,0,0]
 PORTA = int(input("PORTA="))
+NOME = input('Nome que deseja para a loja:')
 # # Configure sessions
 # Session(app)
 
@@ -26,7 +25,6 @@ DATABASE = 'bdMarketplace.json'
 #TODO colocar as refs bootstrap nos arquivos p/ n depender da rede
 
 #index
-#está funcionando
 @app.route("/")
 def index():
     shoppingCart = []
@@ -40,7 +38,7 @@ def index():
         json_object = json.load(openfile)
         camisas = json_object['produtos'] 
         
-    #integrar o add ao carrinho
+    #ele abre o carrinho
     with open('carrinho.json', 'r') as openfile:    
         # Reading from json file
         json_object = json.load(openfile)
@@ -52,23 +50,18 @@ def index():
         totItems += shoppingCart[i]["SUM(qty)"]
     shirts = camisas
     shirtsLen = len(shirts)
-    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display)
-
+    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, nome = NOME)
 
 #cadastro de produtos
 #no BdMarketplace
+#também atualizamos a propria galeria do marketplace
 @app.route('/cadastroProdutos/')
 def form():
-    return render_template('cadastroProdutos.html')
- 
+    return render_template('cadastroProdutos.html') 
 @app.route('/data/', methods = ['POST', 'GET'])
 def data():
-    if request.method == 'GET':
-        name=request.form['team']
-        print (name)
-        
     if request.method == 'POST':
-        form_data = request.form
+
         time = request.form['team']
         quantidade = request.form['quantidade']
         preco = request.form['price']
@@ -89,8 +82,6 @@ def data():
                     "team": time
         }
 
-
-
         # function to add to JSON
         def write_json(new_data, filename):
             with open(filename,'r+') as file:
@@ -105,7 +96,9 @@ def data():
         
         write_json(produto, 'bdMarketplace.json') #escrevendo o novo produto no BD  
         write_json(produto, 'produtos.json') #envia para a sua própria galeria 
-
+        #-----------------------------------------------------------------------------------------------
+        #aqui tem que enviar uma mensagem para sincronizar com os outros marketplaces
+        #--------------------------------------------------------------------------------------------------------------------
         #para recarregar a página index ao escrever a nova camisa no db
         shoppingCart = []
         shopLen = len(shoppingCart)
@@ -131,8 +124,64 @@ def data():
         shirts = camisas
         shirtsLen = len(shirts)
 
-        return render_template("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session)
+        return render_template("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session, nome = NOME)
 
+#para pesquisar na galeria.
+#aqui é possível pesquisar os produtos disponíveis em todos os 
+#marketplaces
+@app.route('/pesquisar/')
+def pesquisa():
+    return render_template('pesquisa.html') 
+@app.route('/pesquisa/', methods = ['POST', 'GET'])
+def resultadoPesquisa():
+    if request.method == 'POST':
+        pesquisa = request.form['pesquisa']
+
+
+        with open('produtos.json', 'r') as openfile:    
+        # Reading from json file
+            json_object = json.load(openfile)
+        camisas = json_object['produtos'] 
+        print(camisas)
+
+        # Select info of selected shirt from database
+        def buscarCamisa(camisas, pesquisa):
+            pesquisaR = []
+            for camisa in camisas:
+                print('for',camisa)
+                if camisa['team'] == pesquisa:
+                    print('team')
+                    pesquisaR.append(camisa)
+                elif camisa['kind'] == pesquisa:
+                    pesquisaR.append(camisa)
+                elif camisa['continent'] == pesquisa:
+                    pesquisaR.append(camisa)
+            return pesquisaR
+        pesquisaResultado = buscarCamisa(camisas, pesquisa)
+        print(pesquisaResultado)
+    shirts = pesquisaResultado
+    shirtsLen = len(shirts)
+    #inicializando as variaveis 
+    # Initialize shopping cart variables
+    shoppingCart = []
+    shopLen = len(shoppingCart)
+    totItems, total, display = 0, 0, 0
+
+    #abre o arquivo do carrinho
+    #para retornar para o indice
+    with open('carrinho.json', 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        shoppingCart = json_object['carrinho'] 
+        shopLen = len(shoppingCart)
+
+    shopLen = len(shoppingCart)
+    for i in range(shopLen):
+        total += shoppingCart[i]["SUM(subTotal)"]
+        totItems += shoppingCart[i]["SUM(qty)"]
+    # Render filtered view
+    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
+ 
 #para inserir no carrinho
 #está funcionando
 @app.route("/buy/")
@@ -214,12 +263,11 @@ def buy():
 
     shirtsLen = len(shirts)
     # Go back to home page
-    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session )
+    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
 
 
 
 #update do carrinho
-#funciona
 @app.route("/update/")
 def update():
     # Initialize shopping cart variables
@@ -300,41 +348,7 @@ def update():
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
     # Go back to cart page
-    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session )
-
-
-
-#editando no momento para integrar c o json
-@app.route("/filter/")
-def filter():
-    if request.args.get('continent'):
-        query = request.args.get('continent')
-        shirts = db.execute("SELECT * FROM shirts WHERE continent = :query ORDER BY team ASC", query=query )
-    if request.args.get('sale'):
-        query = request.args.get('sale')
-        shirts = db.execute("SELECT * FROM shirts WHERE onSale = :query ORDER BY team ASC", query=query)
-    if request.args.get('id'):
-        query = int(request.args.get('id'))
-        shirts = db.execute("SELECT * FROM shirts WHERE id = :query ORDER BY team ASC", query=query)
-    if request.args.get('kind'):
-        query = request.args.get('kind')
-        shirts = db.execute("SELECT * FROM shirts WHERE kind = :query ORDER BY team ASC", query=query)
-    if request.args.get('price'):
-        query = request.args.get('price')
-        shirts = db.execute("SELECT * FROM shirts ORDER BY onSalePrice ASC")
-    shirtsLen = len(shirts)
-    # Initialize shopping cart variables
-    shoppingCart = []
-    shopLen = len(shoppingCart)
-    totItems, total, display = 0, 0, 0
-    # Rebuild shopping cart
-    shoppingCart = db.execute("SELECT team, image, SUM(qty), SUM(subTotal), price, id FROM cart GROUP BY team")
-    shopLen = len(shoppingCart)
-    for i in range(shopLen):
-        total += shoppingCart[i]["SUM(subTotal)"]
-        totItems += shoppingCart[i]["SUM(qty)"]
-    # Render filtered view
-    return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session )
+    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
 
 def ler_json(arquivo, atributo):
     with open(arquivo, 'r') as openfile:    
@@ -397,7 +411,6 @@ def compra():
     return req
 
 #remove do carrinho
-#está funcionando
 @app.route("/remove/", methods=["GET"])
 def remove():
     # Get the id of shirt selected to be removed
@@ -421,8 +434,7 @@ def remove():
     totItems, total, display = 0, 0, 0
     # Rebuild shopping cart
 
-    with open('carrinho.json', 'r') as openfile:    
-        # Reading from json file
+    with open('carrinho.json', 'r') as openfile:  
         json_object = json.load(openfile)
         shoppingCart = json_object['carrinho'] 
 
@@ -433,10 +445,9 @@ def remove():
     # Turn on "remove success" flag
     display = 1
     # Render shopping cart
-    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session )
+    return render_template ("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, nome = NOME )
 
 #pagina do carrinho 
-#funciona
 @app.route("/cart/")
 def cart():
     # Clear shopping cart variables
@@ -451,11 +462,10 @@ def cart():
         total += shoppingCart[i]["SUM(subTotal)"]
         totItems += shoppingCart[i]["SUM(qty)"]
     # Render shopping cart
-    return render_template("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session)
+    return render_template("cart.html", shoppingCart=shoppingCart, shopLen=shopLen, total=total, totItems=totItems, display=display, session=session, nome = NOME)
 
 
 # Only needed if Flask run is not used to execute the server
 if __name__ == "__main__":
-    # deve enviar uma visualização do seu estoque como somente leitura para todos
     # lembrar de alterar IP para apresentação
     app.run( host='0.0.0.0', port=8080 )

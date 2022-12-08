@@ -1,20 +1,12 @@
 {
     "carrinho": [
         {
-            "id": "390",
-            "SUM(qty)": 5,
-            "team": "santos",
-            "image": "rm.png",
-            "price": 55,
-            "SUM(subTotal)": 55
-        },
-        {
-            "id": "390",
-            "SUM(qty)": 5,
+            "id": 3714,
+            "SUM(qty)": 1,
             "team": "flamengo",
-            "image": "rm.png",
-            "price": 55,
-            "SUM(subTotal)": 55
+            "image": "fla.png",
+            "price": 500.0,
+            "SUM(subTotal)": 500.0
         }
     ]
 }

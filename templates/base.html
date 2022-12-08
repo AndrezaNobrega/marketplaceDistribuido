@@ -102,7 +102,7 @@
   <header>
     <nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-sm box-shadow">
       <a href="/" class="navbar-brand d-flex align-items-center">
-          <strong><i class="far fa-futbol"></i> Loja de artigos esportivos</strong>
+          <strong><i class="far fa-futbol"></i> {{nome}}</strong>
       </a>
       {% if session %}
       {% else %}
@@ -110,20 +110,8 @@
         <ul class="navbar-nav mr-auto">
                               <!-- Colocar ref para página de cadastro -->    
           <li class="nav-item"><a href="/cadastroProdutos/" class="nav-link">Cadastrar novo produto</a></li>
-      {% endif %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-            Buscar por
-          </a>
-          <div class="dropdown-menu">
-              <a class="dropdown-item" href="/">All</a>
-              <a class="dropdown-item" href="/filter/?continent=europe">Europa</a>
-              <a class="dropdown-item" href="/filter/?continent=americas">Americas</a>
-              <a class="dropdown-item" href="/filter/?continent=africa">Africa</a>
-              <a class="dropdown-item" href="/filter/?sale=1">A venda</a>
-              <a class="dropdown-item" href="/filter/?price=1">Preços em orderm crescente</a>
-          </div>
-        </li>
+          <li class="nav-item"><a href="/pesquisar/" class="nav-link">Pesquisar</a></li>
+      {% endif %}    
       </ul>
       <div>
         <button class="navbar-toggler" style="display:inline" type="button" data-toggle="modal" data-target="#modalCenter">
@@ -149,7 +137,7 @@
             <div class="row">
                 <div class="col-md">
                     <hr />
-                    <p>&#169; <a href="/">Loja esportiva</a></p>
+                    <p>&#169; <a href="/">{{nome}}</a></p>
                 </div>
             </div>
         </div>
