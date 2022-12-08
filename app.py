@@ -1,6 +1,6 @@
 from cs50 import SQL
 from flask_session import Session
-from flask import Flask, render_template, redirect, request, session, Response
+from flask import Flask, jsonify, render_template, redirect, request, session, Response
 
 from random import *
 import json
@@ -258,7 +258,12 @@ def filter():
     # Render filtered view
     return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session )
 
- 
+def ler_json(arquivo):
+    with open(arquivo, 'r') as openfile:    
+        # Reading from json file
+        json_object = json.load(openfile)
+        json_file = json_object['carrinho']
+    return json_file
 
 # ---------------------------- funções de acesso ao db compartilhado -----------------------------------------------------
 
@@ -267,8 +272,8 @@ def filter():
 #mas como n vamos utilizar, deixei dessa maneira msm, pra gente só ter uma base
 @app.get("/checkout/")
 def checkout():
-    order = db.execute("SELECT * from cart")    
-    # order = list
+    #   order = lista de dicts
+    order = ler_json('carrinho.json')
     # precisa enviar para todas as lojas a requisição
     # TODO enviar uma solicitação com a lista da compra para os peers
     event = eventController.orderEvent(order, clock=clock,id=(PORTA-3030))
@@ -280,19 +285,17 @@ def checkout():
     #     db.execute("INSERT INTO purchases (uid, id, team, image, quantity) VALUES(:uid, :id, :team, :image, :quantity)", uid=session["uid"], id=item["id"], team=item["team"], image=item["image"], quantity=item["qty"] )
 
     # Clear shopping cart
-    db.execute("DELETE from cart")
     shoppingCart = []
     shopLen = len(shoppingCart)
     totItems, total, display = 0, 0, 0
     # Redirect to home page
-    return redirect('/')
+    return jsonify({'res':event}), 201
 
 # Rota por onde são recebidas as solicitações para compra (acesso ao DB)
 @app.get("/compra")
 def compra():
     # deve verificar se os itens da compra pertencem ao BD LOCAL
     print("request args: ")
-    print(request.args('query'))   # está vindo vazio...
         # se pertencem:
             # deve verificar ordem do relógio de mensagem
                 # se o relógio for maior que o atual
@@ -301,8 +304,8 @@ def compra():
                 # deve enviar resposta OK
         # se não pertencem
             # deve incrementar o relógio
-            # 
-    return Response({'res':'OK'}, 200)
+    request.get_json()
+    return {'query':request.query_string.decode()}, 200
 
 #remove do carrinho
 #está funcionando
