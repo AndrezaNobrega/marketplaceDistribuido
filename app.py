@@ -100,6 +100,7 @@ def data():
         #-----------------------------------------------------------------------------------------------
         #aqui tem que enviar uma mensagem para sincronizar com os outros marketplaces
         #--------------------------------------------------------------------------------------------------------------------
+        res = eventController.addEvent(produto)
         #para recarregar a página index ao escrever a nova camisa no db
         shoppingCart = []
         shopLen = len(shoppingCart)
@@ -405,6 +406,7 @@ def checkout():
 def compra():
     # deve verificar se os itens da compra pertencem ao BD LOCAL
     print(f'this_id={this_id}')
+    global CLOCK
     CLOCK[this_id] += 1
     dblocal = ler_json(DATABASE, 'produtos')    # lista de dict
     req = json.loads(request.get_json()) # {"clock":[clock],"items":[items]}
@@ -416,8 +418,8 @@ def compra():
         for product in dblocal:
             if ((item['id'] == product['id']) & (vector_compare(CLOCK, req['clock']) > CLOCK)):
                 # mapear a lista dblocal['produtos'] e decrementar a quantidade da compra do estoque
-                clk = vector_compare(CLOCK, req['clock'])
-                res['clock'] = clk
+                CLOCK = vector_compare(CLOCK, req['clock'])
+                res['clock'] = CLOCK
                 product['quantidade'] -= 1
                 res['res'] = 'OK'
                 return jsonify(clock=res['clock'], res=res['res'])
@@ -438,6 +440,25 @@ def compra():
     print('dblocal items')
     print(dblocal)
     return jsonify(clock=req['clock'], res='NO')
+
+@app.post("/adicionar/")
+def adicionar():
+    req = json.loads(request.get_json())    # produto (dict)
+    print("request adicionar")
+    print(request.get_json())
+    def write_json(new_data, filename):
+            with open(filename,'r+') as file:
+                # First we load existing data into a dict.
+                file_data = json.load(file)
+                # Join new_data with file_data inside emp_details
+                file_data['produtos'].append(new_data)
+                # Sets file's current position at offset.
+                file.seek(0)
+                # convert back to json.
+                json.dump(file_data, file, indent = 4)
+    write_json(req['produto'], 'produtos.json')
+
+    return jsonify(200)
 
 #remove do carrinho
 @app.route("/remove/", methods=["GET"])
