@@ -2,6 +2,7 @@
     "produtos": [
         {
             "continent": "celular",
+            "quantidade": 5,
             "id": "3714",
             "image": "mexico.jpg",
             "kind": "celular",
@@ -12,6 +13,7 @@
         },
         {
             "continent": "celular",
+            "quantidade": 1,
             "id": "3714",
             "image": "mexico.jpg",
             "kind": "celular",
@@ -21,34 +23,37 @@
             "team": "teste"
         },
         {
-            "continent": "celular",
-            "id": "3714",
-            "image": "mexico.jpg",
-            "kind": "celular",
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "price": 6546,
-            "team": "lrlrsc"
+            "continent": "dsof",
+            "quantidade": "5",
+            "id": "7186",
+            "image": "brasil.jpg",
+            "kind": "nao",
+            "onSale": 0,
+            "onSalePrice": "0.08",
+            "price": 0.08,
+            "team": "flamengo"
         },
         {
-            "continent": "celular",
-            "id": "3714",
-            "image": "mexico.jpg",
-            "kind": "celular",
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "price": 654,
-            "team": "celular"
+            "continent": "america",
+            "quantidade": "7",
+            "id": "8385",
+            "image": "brasil.jpg",
+            "kind": "n sei",
+            "onSale": 0,
+            "onSalePrice": 555.0,
+            "price": 555.0,
+            "team": "teste"
         },
         {
-            "continent": "celular",
-            "id": "3714",
-            "image": "mexico.jpg",
-            "kind": "celular",
-            "onSale": "celular",
-            "onSalePrice": 256,
-            "price": 654,
-            "team": "celular"
+            "continent": "america",
+            "quantidade": "7",
+            "id": "1395",
+            "image": "brasil.jpg",
+            "kind": "sim",
+            "onSale": 0,
+            "onSalePrice": 349.0,
+            "price": 349.0,
+            "team": "gremio"
         }
     ]
 }

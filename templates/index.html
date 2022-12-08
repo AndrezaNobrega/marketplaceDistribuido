@@ -16,8 +16,9 @@ Loja de artigos esportivos
                       <img src="/static/img/{{shirts[i]["image"]}}" class="shirt" alt="" />
                       <!-- <p>titulo do card</p>-->
                       <h5 class="card-title">{{shirts[i]["team"]}}</h5>
+                      <h5 class="card-title" style="color:red;"> Quantidade: {{shirts[i]["quantidade"]}}</h5>
                       {% if shirts[i]["onSale"] %} 
-                        <h4 class="card-text price" style="color:red; display:inline">{{ '{:,.2f}'.format(shirts[i]["onSalePrice"]) }}</h4>
+                        <h4 class="card-text price" style="color:rgb(123, 0, 255); display:inline">{{ '{:,.2f}'.format(shirts[i]["onSalePrice"]) }}</h4>
                       {% else %}
                         <h4 class="card-text price">{{ '{:,.2f}'.format(shirts[i]["price"]) }}</h4>
                       {% endif %}
@@ -32,7 +33,7 @@ Loja de artigos esportivos
                       {% else %}
                       <input type="hidden" name="loggedin" value="1" />
                       {% endif %}
-                      <input type="submit" class="btn btn-primary addToCart" value="Add To Cart" /><br /><br />
+                      <input type="submit" class="btn btn-primary addToCart" value="Add ao carrinho" /><br /><br />
                       <div class="alert alert-danger flashMessage" style="text-align: center; display:none; font-size:0.9em;"></div>
                     </form>
                   </div>
