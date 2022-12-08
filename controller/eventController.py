@@ -13,13 +13,12 @@ def orderEvent(items, clock, id):
         if ((marketplaces[i]['porta']-3030)!=id):
             url = f"http://localhost:{marketplaces[i]['porta']}/compra"
             r = requests.post(url,json=json.dumps(items))
-            res.append(r)
+            res.append(json.loads(r.text))  # res contém as n respostas
 
     # a função assincrona deve:
         # Atualizar relogio
         # enviar mensagens
         # retornar apos resposta de todos os peers
 
-    print('orderEvent')
     time.sleep(5)
     return json.dumps(res)

@@ -17,7 +17,7 @@ PORTA = int(input("PORTA="))
 
 # # db sqlite - será substituido pelo json de visualização 
 db = SQL ( "sqlite:///data.db" )
-
+DATABASE = 'bdMarketplace.json'
 
 
 
@@ -336,12 +336,22 @@ def filter():
     # Render filtered view
     return render_template ("index.html", shoppingCart=shoppingCart, shirts=shirts, shopLen=shopLen, shirtsLen=shirtsLen, total=total, totItems=totItems, display=display, session=session )
 
-def ler_json(arquivo):
+def ler_json(arquivo, atributo):
     with open(arquivo, 'r') as openfile:    
         # Reading from json file
         json_object = json.load(openfile)
-        json_file = json_object['carrinho']
+        json_file = json_object[atributo]
     return json_file
+
+def compraAutorizada(list):
+    for it in range(0, len(list)):
+        if (it != 'OK'): 
+            return False
+    return True
+
+def limparCarrinho():
+    with open('carrinho.json', 'w') as openfile:
+        openfile.close()
 
 # ---------------------------- funções de acesso ao db compartilhado -----------------------------------------------------
 
@@ -351,29 +361,30 @@ def ler_json(arquivo):
 @app.get("/checkout/")
 def checkout():
     #   order = lista de dicts
-    order = ler_json('carrinho.json')
+    order = ler_json('carrinho.json', 'carrinho')
     # precisa enviar para todas as lojas a requisição
     # TODO enviar uma solicitação com a lista da compra para os peers
-    event = eventController.orderEvent(order, clock=clock,id=(PORTA-3030))
-    print('Event res: ')
-    print (event)
-
-    # for item in order:
-    #     #nao é necessario registrar historico de compras, por isso o uid e essa query não são necessarios
-    #     db.execute("INSERT INTO purchases (uid, id, team, image, quantity) VALUES(:uid, :id, :team, :image, :quantity)", uid=session["uid"], id=item["id"], team=item["team"], image=item["image"], quantity=item["qty"] )
-
-    # Clear shopping cart
-    shoppingCart = []
-    shopLen = len(shoppingCart)
-    totItems, total, display = 0, 0, 0
-    # Redirect to home page
-    return jsonify({'res':event}), 201
+    res = eventController.orderEvent(order, clock=clock,id=(PORTA-3030))    # lista com n respostas
+    # se todas as respostas foram OK, prossegue a compra
+        # onde define se é ok ou não é no /compra do marketplace
+    if (compraAutorizada(res)):
+        # Clear shopping cart
+        limparCarrinho()
+        # Redirect to home page
+        return redirect('/')
+    # se não, cancela a compra
+    return jsonify(res='A compra não foi autorizada. Tente novamente mais tarde.')
 
 # Rota por onde são recebidas as solicitações para compra (acesso ao DB)
-@app.get("/compra")
+@app.post("/compra")
 def compra():
     # deve verificar se os itens da compra pertencem ao BD LOCAL
-    print("request args: ")
+    dblocal = ler_json(DATABASE, 'produtos')
+    req = request.get_json() # está chegando normalmente (lista)
+    # for item in req:
+    #     if item['id'] in dblocal['produtos']:
+    #         # mapear a lista dblocal['produtos'] e decrementar a quantidade da compra do estoque
+
         # se pertencem:
             # deve verificar ordem do relógio de mensagem
                 # se o relógio for maior que o atual
@@ -382,8 +393,8 @@ def compra():
                 # deve enviar resposta OK
         # se não pertencem
             # deve incrementar o relógio
-    request.get_json()
-    return {'query':request.query_string.decode()}, 200
+    print('request json on return')
+    return req
 
 #remove do carrinho
 #está funcionando

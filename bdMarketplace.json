@@ -24,7 +24,7 @@
         },
         {
             "continent": "america",
-            "quantidade": "2",
+            "quantidade": 2,
             "id": "4493",
             "image": "brasil.jpg",
             "kind": "nao",
@@ -35,7 +35,7 @@
         },
         {
             "continent": "nsei",
-            "quantidade": "5",
+            "quantidade": 5,
             "id": "3572",
             "image": "brasil.jpg",
             "kind": "nao",
@@ -46,7 +46,7 @@
         },
         {
             "continent": "dsof",
-            "quantidade": "5",
+            "quantidade": 5,
             "id": "7186",
             "image": "brasil.jpg",
             "kind": "nao",
@@ -57,7 +57,7 @@
         },
         {
             "continent": "america",
-            "quantidade": "7",
+            "quantidade": 5,
             "id": "8385",
             "image": "brasil.jpg",
             "kind": "n sei",
@@ -68,7 +68,7 @@
         },
         {
             "continent": "america",
-            "quantidade": "7",
+            "quantidade": 5,
             "id": "1395",
             "image": "brasil.jpg",
             "kind": "sim",
