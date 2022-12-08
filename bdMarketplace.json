@@ -76,6 +76,17 @@
             "onSalePrice": 349.0,
             "price": 349.0,
             "team": "gremio"
+        },
+        {
+            "continent": "america",
+            "quantidade": "5",
+            "id": "7408",
+            "image": "brasil.jpg",
+            "kind": "nao",
+            "onSale": 0,
+            "onSalePrice": 500.0,
+            "price": 500.0,
+            "team": "flamengo"
         }
     ]
 }
