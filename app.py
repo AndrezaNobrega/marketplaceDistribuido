@@ -20,13 +20,7 @@ db = SQL ( "sqlite:///data.db" )
 
 
 
-
-#TODO tela de cadastro de produtos 
-#TODO colocar quantidade de cada produto no banco de dados
-#TODO colocar as refs bootstrap nos arquivos p/ n depender da rede
-
 #index
-#está funcionando
 @app.route("/")
 def index():
     shoppingCart = []
@@ -105,7 +99,9 @@ def data():
         
         write_json(produto, 'bdMarketplace.json') #escrevendo o novo produto no BD  
         write_json(produto, 'produtos.json') #envia para a sua própria galeria 
-
+        #-----------------------------------------------------------------------------------------------
+        #aqui tem que enviar uma mensagem para sincronizar com os outros marketplaces
+        #--------------------------------------------------------------------------------------------------------------------
         #para recarregar a página index ao escrever a nova camisa no db
         shoppingCart = []
         shopLen = len(shoppingCart)
