@@ -76,6 +76,50 @@
             "onSalePrice": 500.0,
             "price": 500.0,
             "team": "flamengo"
+        },
+        {
+            "continent": "america",
+            "quantidade": "1",
+            "id": "2504",
+            "image": "brasil.jpg",
+            "kind": "sim",
+            "onSale": 0,
+            "onSalePrice": 10.0,
+            "price": 10.0,
+            "team": "brasil"
+        },
+        {
+            "continent": "america",
+            "quantidade": "1",
+            "id": "2504",
+            "image": "brasil.jpg",
+            "kind": "sim",
+            "onSale": 0,
+            "onSalePrice": 10.0,
+            "price": 10.0,
+            "team": "brasil"
+        },
+        {
+            "continent": "america",
+            "quantidade": "1",
+            "id": "2504",
+            "image": "brasil.jpg",
+            "kind": "sim",
+            "onSale": 0,
+            "onSalePrice": 10.0,
+            "price": 10.0,
+            "team": "brasil"
+        },
+        {
+            "continent": "america",
+            "quantidade": "1",
+            "id": "2504",
+            "image": "brasil.jpg",
+            "kind": "sim",
+            "onSale": 0,
+            "onSalePrice": 10.0,
+            "price": 10.0,
+            "team": "brasil"
         }
     ]
 }

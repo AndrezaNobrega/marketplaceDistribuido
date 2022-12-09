@@ -120,6 +120,17 @@
             "onSalePrice": 60.0,
             "price": 60.0,
             "team": "brasil hexa"
+        },
+        {
+            "continent": "america",
+            "quantidade": "1",
+            "id": "2504",
+            "image": "brasil.jpg",
+            "kind": "sim",
+            "onSale": 0,
+            "onSalePrice": 10.0,
+            "price": 10.0,
+            "team": "brasil"
         }
     ]
 }
